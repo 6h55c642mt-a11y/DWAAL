@@ -1,18 +1,19 @@
-05:28:20 amsterdam: straal 3300 m, gebouwen uit 3dbag
-05:28:20 Gebouwen …
-05:28:21   3DBAG tegelindex: https://data.3dbag.nl/v20250903/tile_index.fgb
-05:28:21   velden tegelindex: ['tile_id', 'cj_sha256', 'gpkg_sha256', 'obj_sha256', 'cj_download', 'gpkg_download', 'obj_download']
-05:28:21   100 3DBAG-tegels
-05:28:21   download 1/100 3dbag_712.gpkg
-05:28:21   3DBAG lukte niet (HTTP Error 404: Not Found); terugval op Overture
-05:28:27   74392 gebouwen (Overture)
-05:28:27   tegels 1/160
-05:28:30   tegels 26/160
-05:28:33   tegels 51/160
-05:28:37   tegels 76/160
-05:28:41   tegels 101/160
-05:28:44   tegels 126/160
-05:28:46   tegels 151/160
-05:28:47   lo.bin.gz: 2.3 MB, 160 detailtegels
-05:28:47 Klaar: /home/runner/work/DWAAL/DWAAL/data/amsterdam (15.7 MB totaal)
+05:30:03 amsterdam: straal 3300 m, gebouwen uit 3dbag
+05:30:03 Gebouwen …
+05:30:05   3DBAG tegelindex: https://data.3dbag.nl/v20250903/tile_index.fgb
+05:30:05   velden tegelindex: ['tile_id', 'cj_sha256', 'gpkg_sha256', 'obj_sha256', 'cj_download', 'gpkg_download', 'obj_download']
+05:30:05   voorbeeld: https://data.3dbag.nl/v20250903/tiles/9/444/712/9-444-712.gpkg.gz
+05:30:05   100 3DBAG-tegels
+05:30:05   download 1/100 3dbag_9-444-712.gpkg.gz
+05:30:07   3DBAG lukte niet ('/home/runner/work/DWAAL/DWAAL/bake/cache/amsterdam/3dbag_9-444-712.gpkg.gz' not recognized as being in a supported file format.; It might help to specify the correct driver explicitly by prefixing the file path with '<DRIVER>:', e.g. 'CSV:path'.); terugval op Overture
+05:30:10   74392 gebouwen (Overture)
+05:30:10   tegels 1/160
+05:30:12   tegels 26/160
+05:30:15   tegels 51/160
+05:30:18   tegels 76/160
+05:30:21   tegels 101/160
+05:30:23   tegels 126/160
+05:30:25   tegels 151/160
+05:30:26   lo.bin.gz: 2.3 MB, 160 detailtegels
+05:30:26 Klaar: /home/runner/work/DWAAL/DWAAL/data/amsterdam (15.7 MB totaal)
 exit 0
