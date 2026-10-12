@@ -1,7 +1,9 @@
-05:53:45 new-york: straal 6500 m, gebouwen uit overture
-05:53:45 Grond, water, groen, straten, bomen …
-05:53:47   grond: 910 vlakken, 836 kades, 10 rivierlijnen
-05:53:53   3119 parken, 22245 straatdelen
-05:53:53   base.json.gz: 0.8 MB (24575 bomen)
-05:53:53 Klaar: /home/runner/work/DWAAL/DWAAL/data/new-york (32.1 MB totaal)
+16:15:20 new-york: straal 6500 m, gebouwen uit overture
+16:15:20 Plekken …
+16:15:21   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+16:15:31   33896 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 67427, 'theater: te onzeker': 130}
+16:15:31   meest voorkomende niet-gebruikte categorieën: [('financial_service', 13213), ('professional_service', 10294), ('fashion_and_apparel_store', 9581), ('real_estate_service', 8204), ('home_service', 7168), ('personal_or_beauty_service', 6356), ('corporate_or_business_office', 6214), ('technical_service', 5133), ('health_care', 4994), ('legal_service', 4784), (None, 4671), ('media_service', 4246), ('attorney_or_law_firm', 4113), ('design_service', 3204), ('food_and_beverage_store', 3174), ('specialized_health_care', 2970), ('wellness_service', 2575), ('civic_organization', 2333), ('dental_clinic', 2304), ('historic_site', 2253), ('behavioral_or_mental_health_clinic', 2112), ('diagnostics_imaging_or_lab_service', 2091), ('social_or_community_service', 1959), ('event_or_party_service', 1721), ('b2b_service', 1700)]
+16:15:31   3797 haltes en stations uit OpenStreetMap
+16:15:31   places.json.gz: 37693 plekken, 2.3 MB
+16:15:32 Klaar: /home/runner/work/DWAAL/DWAAL/data/new-york (32.0 MB totaal)
 exit 0
