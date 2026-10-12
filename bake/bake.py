@@ -247,7 +247,9 @@ def buildings_3dbag(cfg, proj, cache):
     if idx is None: raise RuntimeError('3DBAG tegelindex niet bereikbaar')
     meta, fields = idx[0], idx[-1]
     names = list(meta['fields'])
-    dl = next((i for i, n in enumerate(names) if 'gpkg' in n.lower()), None)
+    log(f'  velden tegelindex: {names}')
+    isurl = lambda v: isinstance(v, str) and v.startswith('http') and v.split('?')[0].endswith(('.gpkg', '.gpkg.zip'))
+    dl = next((i for i, n in enumerate(names) if fields[i] is not None and len(fields[i]) and isurl(fields[i][0]) and 'gpkg' in str(fields[i][0])), None)
     tid = next((i for i, n in enumerate(names) if n.lower() in ('tile_id', 'id', 'tile')), None)
     urls = []
     for k in range(len(fields[0]) if fields else 0):
@@ -257,9 +259,13 @@ def buildings_3dbag(cfg, proj, cache):
     log(f'  {len(urls)} 3DBAG-tegels')
     disc = Point(0, 0).buffer(R - 4); out = []; seen = set()
     for n, url in enumerate(urls):
-        f = cache / ('3dbag_' + url.rstrip('/').split('/')[-1])
+        f = cache / ('3dbag_' + url.split('?')[0].rstrip('/').split('/')[-1].replace('.zip', ''))
         if not f.exists():
-            log(f'  download {n + 1}/{len(urls)} {f.name}'); f.write_bytes(http(url, timeout=600))
+            log(f'  download {n + 1}/{len(urls)} {f.name}'); data = http(url, timeout=600)
+            if url.split('?')[0].endswith('.zip'):
+                import zipfile, io
+                with zipfile.ZipFile(io.BytesIO(data)) as z: data = z.read(next(n_ for n_ in z.namelist() if n_.endswith('.gpkg')))
+            f.write_bytes(data)
         layers = [l[0] for l in pyogrio.list_layers(f)]
         l3 = next((l for l in layers if 'lod22_3d' in l), None) or next((l for l in layers if 'lod22' in l), None)
         lp = next((l for l in layers if l == 'pand'), None)
