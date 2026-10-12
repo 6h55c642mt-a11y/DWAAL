@@ -1,7 +1,9 @@
-05:53:37 paris: straal 4500 m, gebouwen uit overture
-05:53:37 Grond, water, groen, straten, bomen …
-05:53:38   grond: 506 vlakken, 264 kades, 31 rivierlijnen
-05:53:41   1907 parken, 16179 straatdelen
-05:53:43   base.json.gz: 0.7 MB (60000 bomen)
-05:53:43 Klaar: /home/runner/work/DWAAL/DWAAL/data/paris (34.1 MB totaal)
+16:15:13 paris: straal 4500 m, gebouwen uit overture
+16:15:13 Plekken …
+16:15:13   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+16:15:17   23650 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 43013, 'theater: te onzeker': 162}
+16:15:17   meest voorkomende niet-gebruikte categorieën: [('fashion_and_apparel_store', 6582), ('personal_or_beauty_service', 3121), ('food_and_beverage_store', 2957), ('hotel', 2445), ('parking', 2237), ('professional_service', 2181), ('real_estate_service', 1590), ('financial_service', 1428), ('bank_or_credit_union', 1343), ('home_service', 1253), ('social_or_community_service', 1247), ('historic_site', 1172), ('specialty_school', 998), ('corporate_or_business_office', 992), ('media_service', 920), ('wellness_service', 866), ('books_music_and_video_store', 846), ('travel_service', 802), ('event_or_party_service', 771), ('attorney_or_law_firm', 755), ('flowers_and_gifts_store', 738), ('personal_care_and_beauty_store', 717), ('shopping', 703), ('pharmacy_and_drug_store', 642), (None, 601)]
+16:15:18   3974 haltes en stations uit OpenStreetMap
+16:15:18   places.json.gz: 27624 plekken, 1.6 MB
+16:15:18 Klaar: /home/runner/work/DWAAL/DWAAL/data/paris (34.1 MB totaal)
 exit 0
