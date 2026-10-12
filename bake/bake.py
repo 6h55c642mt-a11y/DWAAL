@@ -260,10 +260,11 @@ def buildings_3dbag(cfg, proj, cache):
     log(f'  {len(urls)} 3DBAG-tegels')
     disc = Point(0, 0).buffer(R - 4); out = []; seen = set()
     for n, url in enumerate(urls):
-        f = cache / ('3dbag_' + url.split('?')[0].rstrip('/').split('/')[-1].replace('.zip', ''))
+        f = cache / ('3dbag_' + re.sub(r'\.(zip|gz)$', '', url.split('?')[0].rstrip('/').split('/')[-1]))
         if not f.exists():
             log(f'  download {n + 1}/{len(urls)} {f.name}'); data = http(url, timeout=600)
-            if url.split('?')[0].endswith('.zip'):
+            if url.split('?')[0].endswith('.gz'): data = gzip.decompress(data)
+            elif url.split('?')[0].endswith('.zip'):
                 import zipfile, io
                 with zipfile.ZipFile(io.BytesIO(data)) as z: data = z.read(next(n_ for n_ in z.namelist() if n_.endswith('.gpkg')))
             f.write_bytes(data)
