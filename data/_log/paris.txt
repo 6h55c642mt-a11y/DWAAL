@@ -1,34 +1,7 @@
-05:18:48 paris: straal 4500 m, gebouwen uit overture
-05:18:48 Gebouwen …
-05:18:54   85052 gebouwen (Overture)
-05:18:54   tegels 1/279
-05:18:57   tegels 26/279
-05:19:00   tegels 51/279
-05:19:02   tegels 76/279
-05:19:05   tegels 101/279
-05:19:09   tegels 126/279
-05:19:13   tegels 151/279
-05:19:16   tegels 176/279
-05:19:19   tegels 201/279
-05:19:22   tegels 226/279
-05:19:24   tegels 251/279
-05:19:26   tegels 276/279
-05:19:27   lo.bin.gz: 7.9 MB, 279 detailtegels
-05:19:27 Grond, water, groen, straten, bomen …
-05:19:28   grond: 10 vlakken, 264 kades, 31 rivierlijnen
-05:19:32   1907 parken, 16179 straatdelen
-05:19:32   OSM-extract downloaden: https://download.geofabrik.de/europe/france/ile-de-france-latest.osm.pbf
-05:19:52   regio: 339 MB
-05:20:01   uitsnede stad: 34 MB
-05:20:28   OSM: 124458 bomen, 3974 haltes, 29 markten, 597 OV-lijnen
-05:20:29   base.json.gz: 0.7 MB (60000 bomen)
-05:20:29 Plekken …
-05:20:29   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
-05:20:34   24061 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 43013}
-05:20:34   meest voorkomende niet-gebruikte categorieën: [('fashion_and_apparel_store', 6582), ('personal_or_beauty_service', 3121), ('food_and_beverage_store', 2957), ('hotel', 2445), ('parking', 2237), ('professional_service', 2181), ('real_estate_service', 1590), ('financial_service', 1428), ('bank_or_credit_union', 1343), ('home_service', 1253), ('social_or_community_service', 1247), ('historic_site', 1172), ('specialty_school', 998), ('corporate_or_business_office', 992), ('media_service', 920), ('wellness_service', 866), ('books_music_and_video_store', 846), ('travel_service', 802), ('event_or_party_service', 771), ('attorney_or_law_firm', 755), ('flowers_and_gifts_store', 738), ('personal_care_and_beauty_store', 717), ('shopping', 703), ('pharmacy_and_drug_store', 642), (None, 601)]
-05:20:34   3974 haltes en stations uit OpenStreetMap
-05:20:34   places.json.gz: 28035 plekken, 1.7 MB
-05:20:35 Openbaar vervoer …
-05:20:36   transit.json.gz: 597 lijnen
-05:20:36 Klaar: /home/runner/work/DWAAL/DWAAL/data/paris (34.1 MB totaal)
+05:53:37 paris: straal 4500 m, gebouwen uit overture
+05:53:37 Grond, water, groen, straten, bomen …
+05:53:38   grond: 506 vlakken, 264 kades, 31 rivierlijnen
+05:53:41   1907 parken, 16179 straatdelen
+05:53:43   base.json.gz: 0.7 MB (60000 bomen)
+05:53:43 Klaar: /home/runner/work/DWAAL/DWAAL/data/paris (34.1 MB totaal)
 exit 0
