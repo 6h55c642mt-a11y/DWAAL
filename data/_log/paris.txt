@@ -1,63 +1,34 @@
-05:11:22 paris: straal 4500 m, gebouwen uit overture
-05:11:22 Gebouwen …
-05:11:22   Overture building downloaden …
-05:11:46   building: 106360 records
-05:11:46   Overture building_part downloaden …
-05:11:47   building_part: 5540 records
-05:11:53   85052 gebouwen (Overture)
-05:11:53   tegels 1/279
-05:11:56   tegels 26/279
-05:11:59   tegels 51/279
-05:12:02   tegels 76/279
-05:12:05   tegels 101/279
-05:12:09   tegels 126/279
-05:12:12   tegels 151/279
-05:12:16   tegels 176/279
-05:12:19   tegels 201/279
-05:12:21   tegels 226/279
-05:12:23   tegels 251/279
-05:12:26   tegels 276/279
-05:12:27   lo.bin.gz: 7.9 MB, 279 detailtegels
-05:12:27 Grond, water, groen, straten, bomen …
-05:12:27   Overture land downloaden …
-05:12:32   land: 125534 records
-05:12:32   Overture water downloaden …
-05:12:39   water: 478 records
-05:12:39   grond: 10 vlakken, 264 kades, 31 rivierlijnen
-05:12:39   Overture land_use downloaden …
-05:12:43   land_use: 11070 records
-05:12:45   Overture segment downloaden …
-05:12:53   segment: 85797 records
-05:12:56   1907 parken, 16179 straatdelen
-05:12:56   Overpass (overpass-api.de) …
-05:13:07   mislukt: HTTP Error 504: Gateway Timeout
-05:13:17   Overpass (overpass.private.coffee) …
-05:13:18   mislukt: HTTP Error 500: Internal Server Error
-05:13:28   Overpass (overpass-api.de) …
-05:13:37   mislukt: HTTP Error 504: Gateway Timeout
-05:13:47   overgeslagen (OpenStreetMap niet bereikbaar); draai dit onderdeel later opnieuw
-05:13:47   Overpass (overpass-api.de) …
-05:13:56   mislukt: HTTP Error 504: Gateway Timeout
-05:14:06   Overpass (overpass.private.coffee) …
-05:14:06   mislukt: HTTP Error 500: Internal Server Error
-05:14:16   Overpass (overpass-api.de) …
-05:14:26   mislukt: HTTP Error 504: Gateway Timeout
-05:14:36   overgeslagen (OpenStreetMap niet bereikbaar); draai dit onderdeel later opnieuw
-05:14:36   base.json.gz: 0.4 MB (0 bomen)
-05:14:36 Plekken …
-05:14:36   Overture place downloaden …
-05:14:39   place: 127587 records
-05:14:39   0 plekken uit Overture
-05:14:39   Overpass (overpass-api.de) …
-05:14:52   mislukt: HTTP Error 504: Gateway Timeout
-05:15:02   Overpass (overpass.private.coffee) …
-05:15:02   mislukt: HTTP Error 500: Internal Server Error
-05:15:12   Overpass (overpass-api.de) …
-05:15:21   mislukt: HTTP Error 504: Gateway Timeout
-05:15:31   overgeslagen (OpenStreetMap niet bereikbaar); draai dit onderdeel later opnieuw
-05:15:31   places.json.gz: 0 plekken, 0.0 MB
-05:15:31 Openbaar vervoer …
-05:15:31   Overpass (overpass-api.de) …
-05:15:42   transit.json.gz: 627 lijnen
-05:15:42 Klaar: /home/runner/work/DWAAL/DWAAL/data/paris (32.1 MB totaal)
+05:18:48 paris: straal 4500 m, gebouwen uit overture
+05:18:48 Gebouwen …
+05:18:54   85052 gebouwen (Overture)
+05:18:54   tegels 1/279
+05:18:57   tegels 26/279
+05:19:00   tegels 51/279
+05:19:02   tegels 76/279
+05:19:05   tegels 101/279
+05:19:09   tegels 126/279
+05:19:13   tegels 151/279
+05:19:16   tegels 176/279
+05:19:19   tegels 201/279
+05:19:22   tegels 226/279
+05:19:24   tegels 251/279
+05:19:26   tegels 276/279
+05:19:27   lo.bin.gz: 7.9 MB, 279 detailtegels
+05:19:27 Grond, water, groen, straten, bomen …
+05:19:28   grond: 10 vlakken, 264 kades, 31 rivierlijnen
+05:19:32   1907 parken, 16179 straatdelen
+05:19:32   OSM-extract downloaden: https://download.geofabrik.de/europe/france/ile-de-france-latest.osm.pbf
+05:19:52   regio: 339 MB
+05:20:01   uitsnede stad: 34 MB
+05:20:28   OSM: 124458 bomen, 3974 haltes, 29 markten, 597 OV-lijnen
+05:20:29   base.json.gz: 0.7 MB (60000 bomen)
+05:20:29 Plekken …
+05:20:29   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+05:20:34   24061 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 43013}
+05:20:34   meest voorkomende niet-gebruikte categorieën: [('fashion_and_apparel_store', 6582), ('personal_or_beauty_service', 3121), ('food_and_beverage_store', 2957), ('hotel', 2445), ('parking', 2237), ('professional_service', 2181), ('real_estate_service', 1590), ('financial_service', 1428), ('bank_or_credit_union', 1343), ('home_service', 1253), ('social_or_community_service', 1247), ('historic_site', 1172), ('specialty_school', 998), ('corporate_or_business_office', 992), ('media_service', 920), ('wellness_service', 866), ('books_music_and_video_store', 846), ('travel_service', 802), ('event_or_party_service', 771), ('attorney_or_law_firm', 755), ('flowers_and_gifts_store', 738), ('personal_care_and_beauty_store', 717), ('shopping', 703), ('pharmacy_and_drug_store', 642), (None, 601)]
+05:20:34   3974 haltes en stations uit OpenStreetMap
+05:20:34   places.json.gz: 28035 plekken, 1.7 MB
+05:20:35 Openbaar vervoer …
+05:20:36   transit.json.gz: 597 lijnen
+05:20:36 Klaar: /home/runner/work/DWAAL/DWAAL/data/paris (34.1 MB totaal)
 exit 0
