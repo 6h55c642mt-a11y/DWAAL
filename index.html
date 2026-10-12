@@ -22,7 +22,9 @@ html,body{background:radial-gradient(120% 90% at 50% 10%,#EEF2EF 0%,#D5E0DD 55%,
 .clabel{position:absolute;left:0;top:0;pointer-events:auto;display:flex;align-items:center;gap:7px;padding:6px 12px 6px 8px;margin:-34px 0 0 10px;border-radius:99px;background:rgba(243,244,239,.95);box-shadow:var(--shadow);font:700 14px var(--disp);white-space:nowrap;transition:opacity .25s}
 .clabel i{width:10px;height:10px;border-radius:50%;background:var(--red)}
 .clabel.hidden{opacity:0;pointer-events:none}
-#clist{position:fixed;left:0;right:0;bottom:calc(14px + var(--sb));z-index:10;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:0 12px}
+#clist{position:fixed;left:0;right:0;bottom:calc(14px + var(--sb));z-index:10;display:flex;gap:8px;justify-content:safe center;overflow-x:auto;scrollbar-width:none;padding:6px 12px 10px;scroll-snap-type:x proximity}
+#clist::-webkit-scrollbar{display:none}
+#clist button{flex:0 0 auto;scroll-snap-align:start}
 #clist button{display:flex;flex-direction:column;align-items:flex-start;padding:10px 16px;border-radius:16px;background:var(--paper);box-shadow:var(--shadow);font:800 17px var(--disp)}
 #clist small{font:400 12.5px var(--font);color:var(--muted)}
 #ccard{position:fixed;right:16px;top:calc(84px + var(--st));z-index:20;width:min(360px,calc(100vw - 32px));background:var(--paper);border-radius:22px;box-shadow:var(--shadow);padding:20px;animation:up .35s}

@@ -603,7 +603,7 @@ function addLife(els) {
   if (nB) {
     const cabs = CITY.life?.vehicles === 'cabs', g = cabs ? new THREE.BoxGeometry(2, 1.6, 4.8).translate(0, .9, 0) : new THREE.BoxGeometry(.9, 1.7, 2.1).translate(0, 1.1, 0);
     Life.bikes = new THREE.InstancedMesh(g, new THREE.MeshStandardMaterial({ roughness: .7 }), nB);
-    const cols = cabs ? ['#F7C325', '#F7C325', '#F7C325', '#1D2A2E', '#F3F4EF'] : ['#D7262C', '#2E5E57', '#F2C230', '#3E7BF0', '#1D2A2E', '#E0487F', '#F3F4EF'], c = new THREE.Color();
+    const cols = CITY.life?.colors || (cabs ? ['#F7C325', '#F7C325', '#F7C325', '#1D2A2E', '#F3F4EF'] : ['#D7262C', '#2E5E57', '#F2C230', '#3E7BF0', '#1D2A2E', '#E0487F', '#F3F4EF']), c = new THREE.Color();
     for (let i = 0; i < nB; i++) { const T = ways[(i * 7919) % ways.length]; Life.bikeT.push({ T, s: Math.random() * T.len, v: 3.5 + Math.random() * 2.5, dir: Math.random() < .5 ? 1 : -1 }); Life.bikes.setColorAt(i, c.set(cols[i % cols.length])); }
     scene.add(Life.bikes);
   }

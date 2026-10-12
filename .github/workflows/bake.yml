@@ -33,7 +33,7 @@ jobs:
         run: |
           CITY="${{ github.event.inputs.city || 'all' }}"
           ONLY="${{ github.event.inputs.only || 'buildings,base,places,transit' }}"
-          if [ "$CITY" = "all" ]; then CITIES="paris new-york amsterdam"; else CITIES="$CITY"; fi
+          if [ "$CITY" = "all" ]; then CITIES="paris new-york amsterdam london copenhagen stockholm vienna rome"; else CITIES="${CITY//,/ }"; fi
           mkdir -p data/_log; cd bake
           for c in $CITIES; do
             echo "::group::$c"

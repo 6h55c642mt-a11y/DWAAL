@@ -9,7 +9,7 @@ import { CITIES } from '../cities/index.js';
 const $ = (s, r = document) => r.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const DEG = Math.PI / 180, isMobile = matchMedia('(pointer:coarse)').matches || innerWidth < 760;
-const cname = c => (LANG === 'nl' && c.id === 'paris') ? 'Parijs' : c.name;
+const cname = c => c.names?.[LANG] || c.name;
 installTranslator();
 
 // ---------- scène ----------

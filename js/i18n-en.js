@@ -157,5 +157,5 @@ export const FACT_KEYS = {
   'Architect': 'Architect', 'Voltooid': 'Completed', 'Obelisk': 'Obelisk', 'Koepel': 'Dome', 'Piramide': 'Pyramid', 'Zuilen': 'Columns', 'Heropend': 'Reopened',
   'Station': 'Station', 'Aangelegd': 'Laid out', 'Molen': 'Windmill', 'Fabriek': 'Factory', 'Leeuwen': 'Lions', 'Winter': 'Winter', 'Opgericht': 'Founded',
   'Bibliotheek': 'Library', 'Theaters': 'Theatres', 'In': 'In', 'Geplaatst': 'Installed', 'Boog': 'Arch', 'Monument': 'Monument', 'Draaimolen': 'Carousel',
-  'Paviljoen': 'Pavilion', 'Tickets': 'Tickets', 'Type': 'Type', 'Open': 'Open', 'Extra': 'Extra',
+  'Paviljoen': 'Pavilion', 'Autovrij': 'Car-free', 'Gegraven': 'Dug', 'Gezonken': 'Sank', 'Geborgen': 'Raised', 'Manege': 'Riding hall', 'Herbouwd': 'Rebuilt', 'Tickets': 'Tickets', 'Type': 'Type', 'Open': 'Open', 'Extra': 'Extra',
 };
