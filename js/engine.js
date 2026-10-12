@@ -279,7 +279,7 @@ const M = {
   ground: new THREE.MeshStandardMaterial({ color: '#CBC7B6', roughness: 1, envMapIntensity: .3 }),
   street: new THREE.MeshStandardMaterial({ color: '#EEEADF', roughness: .95, envMapIntensity: .3, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }),
   park: clipToRadius(new THREE.MeshStandardMaterial({ color: '#9DB67F', roughness: 1, envMapIntensity: .3, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 })),
-  water: clipToRadius(new THREE.MeshStandardMaterial({ color: '#4A8FA0', roughness: .14, metalness: .05, envMapIntensity: 1.1, normalMap: waterNormalMap(), normalScale: new THREE.Vector2(.32, .32), polygonOffset: true, polygonOffsetFactor: -3, polygonOffsetUnits: -3 })),
+  water: clipToRadius(new THREE.MeshStandardMaterial({ color: '#4A8FA0', roughness: .14, metalness: .05, envMapIntensity: 1.1, normalMap: waterNormalMap(), normalScale: new THREE.Vector2(.32, .32) })),
   tree: new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: .9, envMapIntensity: .3 }),
   plinth: new THREE.MeshStandardMaterial({ color: '#2E5E57', roughness: .75, envMapIntensity: .4 }),
 };
@@ -423,10 +423,11 @@ function makeTileMaterial() {
   vec3 cc = upF > .55 ? roofC : wallC;
   cc *= mix(.8, 1.0, smoothstep(0.0, 7.0, vW.y));
   if (uDistOn > 0.0) { vec4 dc = texture2D(uDist, vec2(vW.x / (2.0 * uClipR) + .5, .5 - vW.z / (2.0 * uClipR))); cc = mix(cc, dc.rgb * 1.15, dc.a * uDistOn * .6); }
-  if (vHl > .5) cc = mix(cc, uHlCol[int(vHl + .5) - 1], .92);
+  float hSel = step(19.5, vHl), hC = vHl - 20. * hSel;   // 20+ = geselecteerd: eigen laagkleur, extra gloed
+  if (hC > .5) cc = mix(cc, uHlCol[int(hC + .5) - 1], .92);
   diffuseColor.rgb *= cc;`)
       .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
-  if (vHl > .5) totalEmissiveRadiance += uHlCol[int(vHl + .5) - 1] * uHlGlow;
+  if (hC > .5) totalEmissiveRadiance += uHlCol[int(hC + .5) - 1] * uHlGlow * (1. + 1.6 * hSel);
   if (uNight > .01 && upF < .45 && vW.y > 2.5) {
     vec2 g = vec2((vW.x + vW.z) / 2.7, vW.y / 3.1), c = floor(g), f = fract(g);
     float r = fract(sin(dot(c + vec2(vFid * .371, vFid * .113), vec2(12.9898, 78.233))) * 43758.5453);
@@ -1426,7 +1427,7 @@ const Card = {
     this.show();
   },
   curated(p) {
-    Sel.hide(); Transit.unfocus(); this.cur = p; const C = CATS[p.cat], st = Store.stamps()[p.id];
+    Sel.hide(); Transit.unfocus(); this.cur = p; if (!p.area) Sel.show({ id: 'sel:' + p.key, rings: null, cx: p.x, cz: p.z, probe: true }); const C = CATS[p.cat], st = Store.stamps()[p.id];
     const media = p.video ? `<iframe src="https://www.youtube-nocookie.com/embed/${esc(p.video)}" title="Video" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>` : C.icon;
     this.frame({
       color: C.color, icon: media, key: p.key, stop: stopFromCurated(p), query: p.name + ' ' + CITY.name, reopen: () => this.curated(p),
@@ -1440,7 +1441,7 @@ const Card = {
     else Sound.open();
   },
   osm(o) {
-    Sel.hide(); Transit.unfocus(); this.cur = o; const t = o.tags, L = LAYERS.find(l => l.id === (o.layer === 'tramstop' ? 'tram' : o.layer)) || LAYERS[0];
+    Sel.hide(); Transit.unfocus(); this.cur = o; if (!isStreet(o)) Sel.show({ id: 'sel:' + o.key, rings: null, cx: o.x, cz: o.z, probe: true }); const t = o.tags, L = LAYERS.find(l => l.id === (o.layer === 'tramstop' ? 'tram' : o.layer)) || LAYERS[0];
     const addr = [t['addr:street'], t['addr:housenumber']].filter(Boolean).join(' ');
     const icon = { musea: '🖼️', theater: '🎭', eten: foodIcon(t), zien: '📍', markt: '🛍️', groen: '🌳', ov: '🚉', tram: '🚋' }[L.id] || '📍';
     const isStop = o.layer === 'tramstop' || o.tags.highway === 'bus_stop' || o.tags.railway === 'station' || o.tags.railway === 'subway_entrance';
@@ -1674,6 +1675,10 @@ function loop() {
   requestAnimationFrame(loop);
   const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTime;
   stepTween(); controls.update(); clampTarget(); updateDim(dt);
+  { // dieptebereik meeschalen met de afstand: anders wint het water het van de kade als je ver uitzoomt
+    const cd0 = camera.position.distanceTo(controls.target), nr = clamp(cd0 * .04, 2, 600), fr = cd0 * 3 + R * 4;
+    if (Math.abs(nr - camera.near) > camera.near * .15 || Math.abs(fr - camera.far) > camera.far * .15) { camera.near = nr; camera.far = fr; camera.updateProjectionMatrix(); }
+  }
   camera.updateMatrixWorld(); Tiles.refresh(); slowTick(t);
   M.water.normalMap.offset.set(t * .012, t * .007);
   const camD = camera.position.distanceTo(controls.target);
@@ -2094,7 +2099,7 @@ function paintId(mesh, id, code) {
   for (const i of list) hl.array[i] = code; hl.needsUpdate = true;
 }
 const HL = {
-  entries: new Map(), pending: new Set(), fresh: [],
+  entries: new Map(), pending: new Set(), fresh: [], reg: new Map(),   // reg: gebouw (tegel+id) -> alle markeringen die erop vallen
   init() { LAYERS.forEach((L, i) => HL_U.col.value[i].set(L.color)); HL_U.col.value[11].set('#FFFFFF'); },
   prio(tag) { return { sel: 99, musea: 9, theater: 8, zien: 7, markt: 6, ov: 5, groen: 4, eten: 3, gids: 2 }[tag] ?? 1; },
   code(tag) { return tag === 'sel' ? 12 : LAYERS.findIndex(l => l.id === tag) + 1; },
@@ -2104,7 +2109,16 @@ const HL = {
     for (const [k, e] of this.entries) if (e.tags.has(tag) && !want.has(k)) { e.tags.delete(tag); this.pending.add(k); }
     for (const f of fps) { const e = this.entry(f); if (!e.tags.has(tag)) { e.tags.add(tag); this.pending.add(f.id); } }
   },
-  target(e) { let best = null, bp = -2; for (const t of e.tags) { const p = this.prio(t); if (p > bp) { bp = p; best = t; } } return best ? this.code(best) : 0; },
+  // eén gebouw kan door meerdere markeringen geraakt worden (laag + selectie): combineer ze
+  combine(set) {
+    let best = null, bp = -2, sel = false;
+    for (const e of set) for (const t of e.tags) { if (t === 'sel') { sel = true; continue; } const p = this.prio(t); if (p > bp) { bp = p; best = t; } }
+    if (!best) return sel ? 12 : 0; return this.code(best) + (sel ? 20 : 0);
+  },
+  target(e) { return this.combine([e]); },
+  key(h) { return h.mesh.uuid + ':' + h.id; },
+  paint(h) { const set = this.reg.get(this.key(h)); paintId(h.mesh, h.id, set ? this.combine(set) : 0); },
+  link(e, h) { const k = this.key(h); let set = this.reg.get(k); if (!set) this.reg.set(k, set = new Set()); set.add(e); this.paint(h); },
   find(e, meshes) {
     const pad = e.f.probe ? 3 : 0, cand = meshes.filter(o => { const b = o.userData.box; return b && o.userData.srcId && e.x >= b.min.x - pad && e.x <= b.max.x + pad && e.z >= b.min.z - pad && e.z <= b.max.z + pad; });
     if (!cand.length) return [];
@@ -2117,9 +2131,10 @@ const HL = {
   },
   apply(e) {
     const code = this.target(e);
-    if (code && !e.hits.length) this.find(e, Tiles.list);
-    for (const h of e.hits) paintId(h.mesh, h.id, code);
-    e.code = code; if (!code) this.entries.delete(e.f.id);
+    if (code && !e.hits.length) for (const h of this.find(e, Tiles.list)) this.link(e, h);
+    e.code = code;
+    if (!code) { this.entries.delete(e.f.id); for (const h of e.hits) { const k = this.key(h), set = this.reg.get(k); if (set) { set.delete(e); if (!set.size) this.reg.delete(k); } this.paint(h); } }
+    else for (const h of e.hits) this.paint(h);
   },
   tick() {
     let n = 0; for (const k of this.pending) { if (n++ >= 120) break; this.pending.delete(k); const e = this.entries.get(k); if (e) this.apply(e); }
@@ -2127,11 +2142,11 @@ const HL = {
     let m = 0;
     while (this.fresh.length && m++ < 6) {
       const o = this.fresh.pop(); if (!Tiles.meshes.has(o) || !o.userData.box) continue; const b = o.userData.box;
-      for (const e of this.entries.values()) { if (!e.code || e.x < b.min.x || e.x > b.max.x || e.z < b.min.z || e.z > b.max.z) continue; for (const h of this.find(e, [o])) paintId(h.mesh, h.id, e.code); }
+      for (const e of this.entries.values()) { if (!e.code || e.x < b.min.x || e.x > b.max.x || e.z < b.min.z || e.z > b.max.z) continue; for (const h of this.find(e, [o])) this.link(e, h); }
     }
   },
   meshReady(o) { this.fresh.push(o); },
-  meshGone(o) { for (const e of this.entries.values()) e.hits = e.hits.filter(h => h.mesh !== o); },
+  meshGone(o) { for (const e of this.entries.values()) e.hits = e.hits.filter(h => h.mesh !== o); for (const k of [...this.reg.keys()]) if (k.startsWith(o.uuid + ':')) this.reg.delete(k); },
 };
 
 // =====================================================================
