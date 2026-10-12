@@ -248,14 +248,15 @@ def buildings_3dbag(cfg, proj, cache):
     meta, fields = idx[0], idx[-1]
     names = list(meta['fields'])
     log(f'  velden tegelindex: {names}')
-    isurl = lambda v: isinstance(v, str) and v.startswith('http') and v.split('?')[0].endswith(('.gpkg', '.gpkg.zip'))
-    dl = next((i for i, n in enumerate(names) if fields[i] is not None and len(fields[i]) and isurl(fields[i][0]) and 'gpkg' in str(fields[i][0])), None)
+    dl = names.index('gpkg_download') if 'gpkg_download' in names else None
     tid = next((i for i, n in enumerate(names) if n.lower() in ('tile_id', 'id', 'tile')), None)
     urls = []
     for k in range(len(fields[0]) if fields else 0):
-        if dl is not None: urls.append(fields[dl][k])
+        if dl is not None:
+            u = str(fields[dl][k]); urls.append(u if u.startswith('http') else f'https://data.3dbag.nl/{ver}/' + u.lstrip('/'))
         elif tid is not None:
             t = str(fields[tid][k]); urls.append(f'https://data.3dbag.nl/{ver}/tiles/{t.replace("-", "/")}/{t}.gpkg')
+    if urls: log(f'  voorbeeld: {urls[0]}')
     log(f'  {len(urls)} 3DBAG-tegels')
     disc = Point(0, 0).buffer(R - 4); out = []; seen = set()
     for n, url in enumerate(urls):
