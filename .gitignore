@@ -1,0 +1,4 @@
+bake/cache/
+bake/.venv/
+__pycache__/
+.DS_Store

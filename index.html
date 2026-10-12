@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2E5E57">
+<title>Dwaal – kies een stad</title>
+<meta property="og:title" content="Dwaal: ontdek steden in 3D">
+<meta property="og:description" content="Kies een stad op de wereldbol en verken hem in 3D, met gids, routes en dagplanner.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<style>
+html,body{background:radial-gradient(120% 90% at 50% 10%,#EEF2EF 0%,#D5E0DD 55%,#C3D1CE 100%)}
+#globe{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.hero{position:fixed;left:20px;top:calc(84px + var(--st));z-index:10;max-width:360px;pointer-events:none}
+.hero h1{font:800 clamp(40px,7vw,72px)/.92 var(--disp);letter-spacing:-.04em;margin:0}
+.hero h1 em{display:block;font-style:normal;color:var(--red);font-size:.32em;letter-spacing:.08em;margin-bottom:.4em}
+.hero p{font-size:16px;color:var(--muted);margin:12px 0 0}
+#labels{position:fixed;inset:0;pointer-events:none;z-index:5}
+.clabel{position:absolute;left:0;top:0;pointer-events:auto;display:flex;align-items:center;gap:7px;padding:6px 12px 6px 8px;margin:-34px 0 0 10px;border-radius:99px;background:rgba(243,244,239,.95);box-shadow:var(--shadow);font:700 14px var(--disp);white-space:nowrap;transition:opacity .25s}
+.clabel i{width:10px;height:10px;border-radius:50%;background:var(--red)}
+.clabel.hidden{opacity:0;pointer-events:none}
+#clist{position:fixed;left:0;right:0;bottom:calc(14px + var(--sb));z-index:10;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:0 12px}
+#clist button{display:flex;flex-direction:column;align-items:flex-start;padding:10px 16px;border-radius:16px;background:var(--paper);box-shadow:var(--shadow);font:800 17px var(--disp)}
+#clist small{font:400 12.5px var(--font);color:var(--muted)}
+#ccard{position:fixed;right:16px;top:calc(84px + var(--st));z-index:20;width:min(360px,calc(100vw - 32px));background:var(--paper);border-radius:22px;box-shadow:var(--shadow);padding:20px;animation:up .35s}
+#ccard h2{font-size:34px;font-weight:800;margin:8px 0 4px}
+#ccard .ctime{color:var(--muted);font-size:14px;margin:0 0 10px}
+#ccard p{line-height:1.55}
+#ccard .btn{text-decoration:none;margin-top:6px}
+#gstat{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4;color:var(--muted);font-size:14px}
+@media (max-width:700px){.hero{top:calc(72px + var(--st));left:16px}.hero p{display:none}#ccard{left:12px;right:12px;width:auto;top:auto;bottom:calc(86px + var(--sb))}}
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<canvas id="globe" aria-label="Wereldbol met steden"></canvas>
+<header class="topbar">
+  <div class="brand"><span class="xxx" aria-hidden="true">✕✕✕</span><b>dwaal</b><span>Steden</span></div>
+  <div class="spacer"></div>
+  <button class="ibtn lang" id="btnLang" translate="no" aria-label="Taal / language">EN</button>
+  <button class="ibtn" id="btnAcct" aria-label="Inloggen"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4s6.3 1.8 7.5 5.4"/></svg></button>
+</header>
+<div class="hero"><h1><em>✕✕✕</em>Kies een stad</h1><p>Draai de wereldbol en kies een stad om te verkennen.</p></div>
+<div id="labels"></div>
+<div id="gstat">Wereldkaart laden…</div>
+<nav id="clist" aria-label="Kies een stad om te verkennen"></nav>
+<article id="ccard" hidden></article>
+<div id="modal" class="modal" hidden><div class="mbox"></div></div>
+<script type="module" src="js/globe.js"></script>
+</body>
+</html>

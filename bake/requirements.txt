@@ -1,0 +1,7 @@
+overturemaps>=0.10
+shapely>=2.0
+numpy
+pyarrow
+mapbox-earcut
+pyogrio
+certifi

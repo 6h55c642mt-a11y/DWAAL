@@ -1,0 +1,22 @@
+# Zet de app online via GitHub Pages bij elke wijziging op main.
+name: Online zetten
+on:
+  push: { branches: [main] }
+  workflow_run: { workflows: ['Kaartdata bakken'], types: [completed] }
+  workflow_dispatch:
+permissions: { contents: read, pages: write, id-token: write }
+concurrency: { group: pages, cancel-in-progress: true }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: '${{ steps.d.outputs.page_url }}' }
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - name: Site samenstellen
+        run: mkdir _site && cp -r index.html city.html css js cities _site/ && (cp -r data _site/ 2>/dev/null || true) && touch _site/.nojekyll && du -sh _site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: _site }
+      - id: d
+        uses: actions/deploy-pages@v4
