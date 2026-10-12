@@ -1,57 +1,7 @@
-05:20:41 new-york: straal 6500 m, gebouwen uit overture
-05:20:41 Gebouwen …
-05:20:41   Overture building downloaden …
-05:21:18   building: 158062 records
-05:21:18   Overture building_part downloaden …
-05:21:21   building_part: 17706 records
-05:21:29   115373 gebouwen (Overture)
-05:21:29   tegels 1/509
-05:21:31   tegels 26/509
-05:21:33   tegels 51/509
-05:21:34   tegels 76/509
-05:21:36   tegels 101/509
-05:21:37   tegels 126/509
-05:21:38   tegels 151/509
-05:21:39   tegels 176/509
-05:21:41   tegels 201/509
-05:21:43   tegels 226/509
-05:21:45   tegels 251/509
-05:21:46   tegels 276/509
-05:21:48   tegels 301/509
-05:21:49   tegels 326/509
-05:21:50   tegels 351/509
-05:21:52   tegels 376/509
-05:21:54   tegels 401/509
-05:21:55   tegels 426/509
-05:21:57   tegels 451/509
-05:21:58   tegels 476/509
-05:21:59   tegels 501/509
-05:22:00   lo.bin.gz: 7.0 MB, 509 detailtegels
-05:22:00 Grond, water, groen, straten, bomen …
-05:22:00   Overture land downloaden …
-05:22:10   land: 30952 records
-05:22:10   Overture water downloaden …
-05:22:19   water: 1135 records
-05:22:21   grond: 14 vlakken, 836 kades, 10 rivierlijnen
-05:22:21   Overture land_use downloaden …
-05:22:27   land_use: 16443 records
-05:22:30   Overture segment downloaden …
-05:22:42   segment: 79097 records
-05:22:46   3119 parken, 22245 straatdelen
-05:22:46   OSM-extract downloaden: https://download.geofabrik.de/north-america/us/new-york-latest.osm.pbf
-05:23:12   regio: 497 MB
-05:23:27   uitsnede stad: 17 MB
-05:23:42   OSM: 27457 bomen, 3797 haltes, 8 markten, 424 OV-lijnen
-05:23:42   base.json.gz: 0.8 MB (24575 bomen)
-05:23:42 Plekken …
-05:23:42   Overture place downloaden …
-05:23:48   place: 278258 records
-05:23:48   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
-05:23:58   34693 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 67427}
-05:23:58   meest voorkomende niet-gebruikte categorieën: [('financial_service', 13213), ('professional_service', 10294), ('fashion_and_apparel_store', 9581), ('real_estate_service', 8204), ('home_service', 7168), ('personal_or_beauty_service', 6356), ('corporate_or_business_office', 6214), ('technical_service', 5133), ('health_care', 4994), ('legal_service', 4784), (None, 4671), ('media_service', 4246), ('attorney_or_law_firm', 4113), ('design_service', 3204), ('food_and_beverage_store', 3174), ('specialized_health_care', 2970), ('wellness_service', 2575), ('civic_organization', 2333), ('dental_clinic', 2304), ('historic_site', 2253), ('behavioral_or_mental_health_clinic', 2112), ('diagnostics_imaging_or_lab_service', 2091), ('social_or_community_service', 1959), ('event_or_party_service', 1721), ('b2b_service', 1700)]
-05:23:58   3797 haltes en stations uit OpenStreetMap
-05:23:59   places.json.gz: 38490 plekken, 2.3 MB
-05:23:59 Openbaar vervoer …
-05:24:00   transit.json.gz: 424 lijnen
-05:24:00 Klaar: /home/runner/work/DWAAL/DWAAL/data/new-york (32.0 MB totaal)
+05:53:45 new-york: straal 6500 m, gebouwen uit overture
+05:53:45 Grond, water, groen, straten, bomen …
+05:53:47   grond: 910 vlakken, 836 kades, 10 rivierlijnen
+05:53:53   3119 parken, 22245 straatdelen
+05:53:53   base.json.gz: 0.8 MB (24575 bomen)
+05:53:53 Klaar: /home/runner/work/DWAAL/DWAAL/data/new-york (32.1 MB totaal)
 exit 0
