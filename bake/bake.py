@@ -44,7 +44,8 @@ def read_city(cid: str) -> dict:
     if not m: sys.exit(f'Kon center/radius niet vinden in cities/{cid}.js')
     b = re.search(r"buildings:\s*'(\w+)'", src)
     dh = re.search(r"defaultHeight:\s*([\d.]+)", src)
-    return dict(id=cid, lat=float(m[1]), lon=float(m[2]), R=float(m[3]), buildings=(b[1] if b else 'overture'), defaultHeight=float(dh[1]) if dh else 12.0)
+    ox = re.search(r"osmExtract:\s*'([^']+)'", src)
+    return dict(osm=ox[1] if ox else None, id=cid, lat=float(m[1]), lon=float(m[2]), R=float(m[3]), buildings=(b[1] if b else 'overture'), defaultHeight=float(dh[1]) if dh else 12.0)
 
 # ---------------------------------------------------------------- coördinaten (gelijk aan de engine)
 WA = 6378137.0; WF = 1 / 298.257223563; WE2 = WF * (2 - WF)
@@ -384,6 +385,70 @@ def bake_buildings(cfg, proj, cache, out: Path):
     log(f'  lo.bin.gz: {(out / "lo.bin.gz").stat().st_size / 1e6:.1f} MB, {len(hi_keys)} detailtegels')
     return hi_keys, len(bs)
 
+
+# ---------------------------------------------------------------- OpenStreetMap uit een regio-extract (Geofabrik)
+# Geen Overpass meer: één download per regio, lokaal gefilterd met osmium. Betrouwbaar en snel.
+STOP_KEYS = lambda t: t.get('railway') in ('tram_stop', 'station', 'subway_entrance') or t.get('highway') == 'bus_stop' or t.get('station') == 'subway' or t.get('amenity') == 'ferry_terminal'
+def osm_data(cfg, proj, cache: Path):
+    f = cache / 'osm_city.json.gz'
+    if f.exists(): return json.loads(gzip.decompress(f.read_bytes()))
+    if not cfg.get('osm'): log('  geen osmExtract ingesteld in het stadsbestand; OSM-onderdelen overgeslagen'); return None
+    import osmium, subprocess, shutil
+    big = cache / ('region_' + cfg['osm'].rstrip('/').split('/')[-1])
+    if not big.exists():
+        log(f'  OSM-extract downloaden: {cfg["osm"]}')
+        req = urllib.request.Request(cfg['osm'], headers=UA)
+        with urllib.request.urlopen(req, timeout=1800) as r, open(str(big) + '.part', 'wb') as o: shutil.copyfileobj(r, o, 1 << 20)
+        Path(str(big) + '.part').rename(big)
+    log(f'  regio: {big.stat().st_size / 1e6:.0f} MB')
+    lon0, lat0, lon1, lat1 = proj.bbox(cfg['R'])
+    city = cache / 'osm_city.osm.pbf'
+    if shutil.which('osmium'):
+        subprocess.run(['osmium', 'extract', '-b', f'{lon0},{lat0},{lon1},{lat1}', '-s', 'smart', '--overwrite', '-o', str(city), str(big)], check=True)
+        log(f'  uitsnede stad: {city.stat().st_size / 1e6:.0f} MB')
+    else: city = big
+    inb = lambda lat, lon: lat0 <= lat <= lat1 and lon0 <= lon <= lon1
+    # pas 1: OV-relaties en hun leden
+    rels, want_w, want_n = [], set(), set()
+    for o in osmium.FileProcessor(str(city), osmium.osm.RELATION):
+        t = dict(o.tags)
+        if t.get('type') != 'route' or t.get('route') not in ('tram', 'subway', 'ferry', 'light_rail', 'bus'): continue
+        mem = [{'type': {'n': 'node', 'w': 'way', 'r': 'relation'}[m.type], 'ref': m.ref, 'role': m.role} for m in o.members]
+        for m in mem:
+            if m['type'] == 'way' and t['route'] != 'bus': want_w.add(m['ref'])
+            if m['type'] == 'node': want_n.add(m['ref'])
+        rels.append({'type': 'relation', 'id': o.id, 'tags': t, 'members': mem})
+    # pas 2: knopen en wegen met coördinaten
+    trees, stops, markets, wgeo, ncoord = [], [], [], {}, {}
+    for o in osmium.FileProcessor(str(city)).with_locations():
+        if o.is_node():
+            if not o.location.valid(): continue
+            lat, lon = o.location.lat, o.location.lon
+            if o.id in want_n: ncoord[o.id] = (round(lat, 6), round(lon, 6))
+            if not inb(lat, lon) or not len(o.tags): continue
+            t = dict(o.tags)
+            if t.get('natural') == 'tree': trees.append({'type': 'node', 'lat': lat, 'lon': lon})
+            elif STOP_KEYS(t): stops.append({'type': 'node', 'id': o.id, 'lat': round(lat, 6), 'lon': round(lon, 6), 'tags': t})
+        elif o.is_way():
+            t = dict(o.tags); isw = o.id in want_w; mk = t.get('amenity') == 'marketplace'; st = STOP_KEYS(t)
+            if not (isw or mk or st): continue
+            pts = [{'lat': round(n.lat, 6), 'lon': round(n.lon, 6)} for n in o.nodes if n.location.valid()]
+            if len(pts) < 2: continue
+            if isw: wgeo[o.id] = pts
+            if mk and len(pts) > 3: markets.append({'type': 'way', 'id': o.id, 'tags': t, 'geometry': pts})
+            if st:
+                c = {'lat': round(sum(p['lat'] for p in pts) / len(pts), 6), 'lon': round(sum(p['lon'] for p in pts) / len(pts), 6)}
+                if inb(c['lat'], c['lon']): stops.append({'type': 'way', 'id': o.id, 'center': c, 'tags': t})
+    for r in rels:
+        for m in r['members']:
+            if m['type'] == 'way' and m['ref'] in wgeo: m['geometry'] = wgeo[m['ref']]
+            if m['type'] == 'node' and m['ref'] in ncoord: m['lat'], m['lon'] = ncoord[m['ref']]
+    rels = [r for r in rels if any('geometry' in m or 'lat' in m for m in r['members'])]
+    d = {'trees': trees, 'stops': stops, 'markets': markets, 'routes': rels}
+    f.write_bytes(gzip.compress(json.dumps(d, separators=(',', ':')).encode()))
+    log(f'  OSM: {len(trees)} bomen, {len(stops)} haltes, {len(markets)} markten, {len(rels)} OV-lijnen')
+    return d
+
 # ---------------------------------------------------------------- grond, water, groen, straten, bomen
 def flat(coords, nd=1):
     return [round(v, nd) for xz in coords for v in xz]
@@ -428,13 +493,14 @@ def bake_base(cfg, proj, cache, out: Path):
                 streets.append({'c': CL[cl], 'b': 1 if fl and 'is_bridge' in json.dumps(fl) else 0, 'p': flat(l.simplify(0.4).coords)})
     log(f'  {len(parks)} parken, {len(streets)} straatdelen')
     lat0, lon0, lat1, lon1 = bbox[1], bbox[0], bbox[3], bbox[2]; ob = f'{lat0:.5f},{lon0:.5f},{lat1:.5f},{lon1:.5f}'
-    tj = overpass(f'[out:json][timeout:200];node["natural"="tree"]({ob});out skel qt 150000;', cache / 'osm_trees.json.gz') or {}
+    od = osm_data(cfg, proj, cache) or {}
+    tj = {'elements': od.get('trees', [])}
     pts = []
     for el in tj.get('elements', []):
         x, z = proj.local(el['lon'], el['lat']); x, z = float(x), float(z)
         if x * x + z * z < (R - 4) ** 2: pts.append((round(x, 1), round(z, 1)))
     random.Random(1).shuffle(pts); pts = pts[:60000]
-    mj = overpass(f'[out:json][timeout:120];way["amenity"="marketplace"]({ob});out geom;', cache / 'osm_markets.json.gz') or {}
+    mj = {'elements': od.get('markets', [])}
     markets = []
     for el in mj.get('elements', []):
         if el.get('type') == 'way' and el.get('geometry'):
@@ -478,13 +544,25 @@ def place_tags(cat: str):
 def bake_places(cfg, proj, cache, out: Path):
     R = cfg['R']; bbox = proj.bbox(R)
     tp = overture('place', bbox, cache); els = []; seen = set()
-    cats = col(tp, 'categories'); names = col(tp, 'names'); conf = col(tp, 'confidence'); webs = col(tp, 'websites'); phones = col(tp, 'phones'); addrs = col(tp, 'addresses'); ids = col(tp, 'id')
+    log(f'  kolommen: {", ".join(tp.column_names) if tp is not None else "-"}')
+    def catname(i):
+        for c in ('categories', 'basic_category', 'taxonomy'):
+            if tp is not None and c in tp.column_names:
+                v = tp.column(c)[i].as_py()
+                if isinstance(v, dict): v = v.get('primary') or v.get('basic_category')
+                if isinstance(v, str) and v: return v
+        return None
+    cats = [catname(i) for i in range(tp.num_rows)] if tp is not None else []
+    from collections import Counter; unmapped = Counter(); skipped = Counter()
+    names = col(tp, 'names'); conf = col(tp, 'confidence'); webs = col(tp, 'websites'); phones = col(tp, 'phones'); addrs = col(tp, 'addresses'); ids = col(tp, 'id')
     for g, cat, nm, cf, web, ph, ad, pid in zip(geoms(tp), cats, names, conf, webs, phones, addrs, ids):
-        if g is None or (cf is not None and cf < 0.65): continue
+        if g is None: skipped['geen geometrie'] += 1; continue
+        if cf is not None and cf < 0.6: skipped['lage betrouwbaarheid'] += 1; continue
         name = nm.get('primary') if isinstance(nm, dict) else None
-        if not name: continue
-        tags = place_tags(cat.get('primary') if isinstance(cat, dict) else None)
-        if not tags: continue
+        if not name: skipped['geen naam'] += 1; continue
+        tags = place_tags(cat)
+        if not tags: unmapped[cat] += 1; continue
+        if g.geom_type != 'Point': g = g.centroid
         x, z = proj.local(g.x, g.y)
         if float(x) ** 2 + float(z) ** 2 > R * R: continue
         key = (name.lower(), round(float(x) / 15), round(float(z) / 15))
@@ -495,16 +573,17 @@ def bake_places(cfg, proj, cache, out: Path):
         if ph: tags['phone'] = ph[0]
         if ad and isinstance(ad[0], dict) and ad[0].get('freeform'): tags['addr:street'] = ad[0]['freeform']
         els.append({'type': 'node', 'id': pid, 'lat': round(g.y, 6), 'lon': round(g.x, 6), 'tags': tags})
-    log(f'  {len(els)} plekken uit Overture')
+    log(f'  {len(els)} plekken uit Overture; overgeslagen: {dict(skipped)}')
+    log(f'  meest voorkomende niet-gebruikte categorieën: {unmapped.most_common(25)}')
     lon0, lat0, lon1, lat1 = bbox; ob = f'{lat0:.5f},{lon0:.5f},{lat1:.5f},{lon1:.5f}'
-    sj = overpass(f'[out:json][timeout:180];(node["railway"="tram_stop"]({ob});node["highway"="bus_stop"]({ob});node["station"="subway"]({ob});nwr["railway"~"^(station|subway_entrance)$"]({ob});node["amenity"="ferry_terminal"]({ob}););out center tags;', cache / 'osm_stops.json.gz')
-    if sj: els += [slim(e) for e in sj['elements']]; log(f'  {len(sj["elements"])} haltes en stations uit OpenStreetMap')
+    od = osm_data(cfg, proj, cache) or {}
+    els += [slim(e) for e in od.get('stops', [])]; log(f'  {len(od.get("stops", []))} haltes en stations uit OpenStreetMap')
     (out / 'places.json.gz').write_bytes(gzip.compress(json.dumps({'elements': els}, separators=(',', ':')).encode(), 9))
     log(f'  places.json.gz: {len(els)} plekken, {(out / "places.json.gz").stat().st_size / 1e6:.1f} MB')
 
 def bake_transit(cfg, proj, cache, out: Path):
     lon0, lat0, lon1, lat1 = proj.bbox(cfg['R']); ob = f'{lat0:.5f},{lon0:.5f},{lat1:.5f},{lon1:.5f}'
-    j = overpass(f'[out:json][timeout:200];relation["route"~"^(tram|subway|ferry|light_rail)$"]({ob});out geom;relation["route"="bus"]({ob});out body;', cache / 'osm_transit.json.gz') or {'elements': []}
+    j = {'elements': (osm_data(cfg, proj, cache) or {}).get('routes', [])}
     keep = {'route', 'ref', 'name', 'colour', 'to', 'from'}
     els = []
     for r in j['elements']:

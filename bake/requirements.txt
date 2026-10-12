@@ -5,3 +5,4 @@ pyarrow
 mapbox-earcut
 pyogrio
 certifi
+osmium

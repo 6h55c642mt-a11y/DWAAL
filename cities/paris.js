@@ -176,7 +176,8 @@ const EN = {
 };
 export default {
   id: 'paris', name: 'Parijs', baseLang: 'nl', i18n: { en: EN },
-  center: { lat: 48.8600, lon: 2.3400 }, radius: 4500, tz: 'Europe/Paris',
+  center: { lat: 48.8600, lon: 2.3400 }, radius: 4500, osmExtract: 'https://download.geofabrik.de/europe/france/ile-de-france-latest.osm.pbf',
+  tz: 'Europe/Paris',
   buildings: 'overture', defaultHeight: 19, geocoder: 'photon', waterY: -4, cafeLabel: 'Café',
   transit: { planner: 'RATP-reisplanner', url: 'https://www.ratp.fr/en', pay: 'Koop kaartjes in de RATP-app of laad ze op een Navigo Easy-pas.' },
   starts: [{ name: 'Het Louvre', lat: 48.8606, lon: 2.3376 }, { name: 'Eiffeltoren', lat: 48.8584, lon: 2.2945 }],

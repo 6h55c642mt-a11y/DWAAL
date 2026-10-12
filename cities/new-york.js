@@ -176,7 +176,8 @@ const EN = {
 
 export default {
   id: 'new-york', name: 'New York', baseLang: 'nl', i18n: { en: EN },
-  center: { lat: 40.7380, lon: -73.9880 }, radius: 6500, tz: 'America/New_York',
+  center: { lat: 40.7380, lon: -73.9880 }, radius: 6500, osmExtract: 'https://download.geofabrik.de/north-america/us/new-york-latest.osm.pbf',
+  tz: 'America/New_York',
   buildings: 'overture', defaultHeight: 16, geocoder: 'photon', waterY: -2.5, cafeLabel: 'Bar & café',
   transit: { planner: 'MTA-reisplanner', url: 'https://new.mta.info/', pay: 'Betaal in subway en bus met OMNY: tik met je contactloze bankpas of telefoon.' },
   starts: [{ name: 'Grand Central', lat: 40.7527, lon: -73.9772 }, { name: 'Times Square', lat: 40.7580, lon: -73.9855 }],
