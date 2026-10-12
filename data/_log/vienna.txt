@@ -1,0 +1,45 @@
+19:20:13 vienna: straal 3800 m, gebouwen uit overture
+19:20:13 Gebouwen …
+19:20:13   Overture building downloaden …
+19:20:46   building: 43186 records
+19:20:46   Overture building_part downloaden …
+19:20:47   building_part: 3253 records
+19:20:49   34366 gebouwen (Overture)
+19:20:49   tegels 1/205
+19:20:51   tegels 26/205
+19:20:53   tegels 51/205
+19:20:55   tegels 76/205
+19:20:57   tegels 101/205
+19:20:59   tegels 126/205
+19:21:00   tegels 151/205
+19:21:01   tegels 176/205
+19:21:02   tegels 201/205
+19:21:02   lo.bin.gz: 3.9 MB, 205 detailtegels
+19:21:02 Grond, water, groen, straten, bomen …
+19:21:02   Overture land downloaden …
+19:21:08   land: 63739 records
+19:21:08   Overture water downloaden …
+19:21:15   water: 858 records
+19:21:15   grond: 365 vlakken, 521 kades, 8 rivierlijnen
+19:21:15   Overture land_use downloaden …
+19:21:19   land_use: 15420 records
+19:21:23   Overture segment downloaden …
+19:21:40   segment: 38730 records
+19:21:41   4128 parken, 10382 straatdelen
+19:21:41   OSM-extract downloaden: https://download.geofabrik.de/europe/austria-latest.osm.pbf
+19:22:51   regio: 812 MB
+19:23:12   uitsnede stad: 16 MB
+19:23:26   OSM: 64077 bomen, 1967 haltes, 19 markten, 488 OV-lijnen
+19:23:27   base.json.gz: 0.7 MB (46530 bomen)
+19:23:27 Plekken …
+19:23:27   Overture place downloaden …
+19:23:29   place: 40467 records
+19:23:29   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+19:23:30   6592 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 11630, 'theater: te onzeker': 103}
+19:23:30   meest voorkomende niet-gebruikte categorieën: [('fashion_and_apparel_store', 1450), ('personal_or_beauty_service', 1289), ('food_and_beverage_store', 905), ('professional_service', 844), (None, 812), ('hotel', 508), ('home_service', 500), ('financial_service', 487), ('real_estate_service', 431), ('social_or_community_service', 416), ('corporate_or_business_office', 338), ('shopping', 332), ('wellness_service', 329), ('b2b_office_and_professional_service', 325), ('event_or_party_service', 317), ('specialty_school', 305), ('dental_clinic', 304), ('diagnostics_imaging_or_lab_service', 288), ('attorney_or_law_firm', 288), ('travel_service', 281), ('historic_site', 277), ('bank_or_credit_union', 258), ('specialized_health_care', 252), ('media_service', 245), ('pharmacy_and_drug_store', 240)]
+19:23:31   1967 haltes en stations uit OpenStreetMap
+19:23:31   places.json.gz: 8559 plekken, 0.5 MB
+19:23:31 Openbaar vervoer …
+19:23:33   transit.json.gz: 488 lijnen
+19:23:33 Klaar: /home/runner/work/DWAAL/DWAAL/data/vienna (16.8 MB totaal)
+exit 0
