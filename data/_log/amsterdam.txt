@@ -1,0 +1,47 @@
+05:24:04 amsterdam: straal 3300 m, gebouwen uit 3dbag
+05:24:04 Gebouwen …
+05:24:06   3DBAG tegelindex: https://data.3dbag.nl/v20250903/tile_index.fgb
+05:24:06   100 3DBAG-tegels
+05:24:06   download 1/100 3dbag_edb1269bd238dbcdd3023f6f00c0c305368f0bfbb3bfef184f3c01e4963afa2b
+05:24:06   3DBAG lukte niet (unknown url type: 'edb1269bd238dbcdd3023f6f00c0c305368f0bfbb3bfef184f3c01e4963afa2b'); terugval op Overture
+05:24:06   Overture building downloaden …
+05:24:45   building: 92651 records
+05:24:45   Overture building_part downloaden …
+05:24:47   building_part: 1128 records
+05:24:52   74392 gebouwen (Overture)
+05:24:52   tegels 1/160
+05:24:55   tegels 26/160
+05:24:58   tegels 51/160
+05:25:02   tegels 76/160
+05:25:06   tegels 101/160
+05:25:09   tegels 126/160
+05:25:11   tegels 151/160
+05:25:12   lo.bin.gz: 2.3 MB, 160 detailtegels
+05:25:12 Grond, water, groen, straten, bomen …
+05:25:12   Overture land downloaden …
+05:25:22   land: 26272 records
+05:25:22   Overture water downloaden …
+05:25:33   water: 2103 records
+05:25:35   grond: 131 vlakken, 370 kades, 399 rivierlijnen
+05:25:35   Overture land_use downloaden …
+05:25:41   land_use: 9619 records
+05:25:44   Overture segment downloaden …
+05:25:56   segment: 25218 records
+05:25:57   2834 parken, 8897 straatdelen
+05:25:57   OSM-extract downloaden: https://download.geofabrik.de/europe/netherlands/noord-holland-latest.osm.pbf
+05:26:08   regio: 190 MB
+05:26:14   uitsnede stad: 14 MB
+05:26:31   OSM: 22621 bomen, 828 haltes, 7 markten, 182 OV-lijnen
+05:26:32   base.json.gz: 0.5 MB (15930 bomen)
+05:26:32 Plekken …
+05:26:32   Overture place downloaden …
+05:26:36   place: 30976 records
+05:26:36   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+05:26:37   6127 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 10267}
+05:26:37   meest voorkomende niet-gebruikte categorieën: [('fashion_and_apparel_store', 1255), ('personal_or_beauty_service', 891), ('food_and_beverage_store', 655), ('hotel', 634), ('wellness_service', 473), ('professional_service', 455), (None, 359), ('corporate_or_business_office', 322), ('shopping', 307), ('real_estate_service', 305), ('event_or_party_service', 262), ('social_or_community_service', 260), ('bridge', 257), ('gym', 251), ('travel_service', 235), ('sporting_goods_store', 210), ('historic_site', 207), ('flowers_and_gifts_store', 197), ('financial_service', 183), ('books_music_and_video_store', 180), ('home_service', 178), ('media_service', 173), ('sport_or_fitness_facility', 165), ('parking', 163), ('specialty_school', 162)]
+05:26:37   828 haltes en stations uit OpenStreetMap
+05:26:38   places.json.gz: 6955 plekken, 0.4 MB
+05:26:38 Openbaar vervoer …
+05:26:38   transit.json.gz: 182 lijnen
+05:26:38 Klaar: /home/runner/work/DWAAL/DWAAL/data/amsterdam (15.7 MB totaal)
+exit 0
