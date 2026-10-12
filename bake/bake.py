@@ -471,10 +471,15 @@ def bake_base(cfg, proj, cache, out: Path):
     water = unary_union(water_poly).intersection(square) if water_poly else Polygon()
     groundg = land.difference(water).buffer(0)
     ground = groundg.intersection(disc).simplify(0.6)
-    out_ground = []
-    for p in polys_of(ground):
-        if p.area < 20: continue
-        out_ground.append({'o': flat(p.exterior.coords[:-1]), 'h': [flat(r.coords[:-1]) for r in p.interiors if Polygon(r).area > 8]})
+    # in tegels van 400 m knippen: kleine, eenvoudige veelhoeken laten zich in de browser betrouwbaar tekenen
+    out_ground = []; G = 400.0; n = int(math.ceil(R / G))
+    for i in range(-n, n):
+        for j in range(-n, n):
+            cell = box(i * G, j * G, (i + 1) * G, (j + 1) * G)
+            if not cell.intersects(disc): continue
+            for p in polys_of(ground.intersection(cell)):
+                if p.area < 20: continue
+                out_ground.append({'o': flat(p.exterior.coords[:-1]), 'h': [flat(r.coords[:-1]) for r in p.interiors if Polygon(r).area > 8]})
     quays = []
     for l in (getattr(groundg.boundary.intersection(disc.buffer(-3)), 'geoms', None) or [groundg.boundary.intersection(disc.buffer(-3))]):
         if isinstance(l, LineString) and l.length > 2: quays.append(flat(l.simplify(0.6).coords))

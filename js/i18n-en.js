@@ -13,7 +13,7 @@ export const EN = {
   '3DBAG-gebouwen en kaartdata ophalen…': 'Fetching 3DBAG buildings and map data…', 'Gebouwen en kaartdata ophalen…': 'Fetching buildings and map data…',
   '3DBAG-gebouwen ophalen…': 'Fetching 3DBAG buildings…', 'Gebouwen ophalen…': 'Fetching buildings…', 'Panden plaatsen…': 'Placing buildings…', 'Panden bouwen…': 'Building…',
   'Water en straten tekenen…': 'Drawing water and streets…',
-  'Gebouwen uit 3DBAG. Meer detail laadt mee terwijl je rondkijkt.': 'Buildings from 3DBAG. More detail loads as you look around.', 'Gebouwen uit OpenStreetMap.': 'Buildings from OpenStreetMap.',
+  'Gebouwen uit 3DBAG. Meer detail laadt mee terwijl je rondkijkt.': 'Buildings from 3DBAG. More detail loads as you look around.', 'Gebouwen uit Overture Maps. Meer detail laadt mee terwijl je rondkijkt.': 'Buildings from Overture Maps. More detail loads as you look around.',
   '3DBAG is nu niet bereikbaar. De kaart werkt, gebouwen verschijnen zodra ze laden.': '3DBAG is unreachable right now. The map works; buildings appear once they load.',
   'De gebouwen laden nog. Je kunt alvast beginnen.': 'Buildings are still loading. You can start already.', 'Gebouwen geladen': 'Buildings loaded',
   'Kaart geladen zonder gebouwen.': 'Map loaded without buildings.', 'Deze browser ondersteunt geen WebGL. Probeer een recente Chrome, Safari of Firefox.': 'This browser does not support WebGL. Try a recent Chrome, Safari or Firefox.',

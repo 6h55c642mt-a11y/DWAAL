@@ -1746,7 +1746,7 @@ async function boot() {
     await new Promise(r => setTimeout(r, 250));
   }
   clearInterval(iv); UI.loader.progress(1);
-  UI.loader.status(tilesReady ? (CITY.buildings === '3dbag' ? 'Gebouwen uit 3DBAG. Meer detail laadt mee terwijl je rondkijkt.' : 'Gebouwen uit OpenStreetMap.') : Tiles.failed ? '3DBAG is nu niet bereikbaar. De kaart werkt, gebouwen verschijnen zodra ze laden.' : 'De gebouwen laden nog. Je kunt alvast beginnen.');
+  UI.loader.status(tilesReady ? (CITY.buildings === '3dbag' ? 'Gebouwen uit 3DBAG. Meer detail laadt mee terwijl je rondkijkt.' : 'Gebouwen uit Overture Maps. Meer detail laadt mee terwijl je rondkijkt.') : Tiles.failed ? '3DBAG is nu niet bereikbaar. De kaart werkt, gebouwen verschijnen zodra ze laden.' : 'De gebouwen laden nog. Je kunt alvast beginnen.');
   if (!tilesReady) Tiles.onReady = () => toast('Gebouwen geladen');
   const sb = $('#startBtn'); sb.hidden = false; sb.focus();
   sb.onclick = () => {
