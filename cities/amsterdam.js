@@ -362,7 +362,7 @@ const DISTRICTS = [
 
 export default {
   id: 'amsterdam', name: 'Amsterdam', baseLang: 'nl', i18n: { en: EN },
-  center: { lat: 52.3690, lon: 4.8945 }, radius: 2000, osmExtract: 'https://download.geofabrik.de/europe/netherlands/noord-holland-latest.osm.pbf',
+  center: { lat: 52.3690, lon: 4.8945 }, radius: 3300, osmExtract: 'https://download.geofabrik.de/europe/netherlands/noord-holland-latest.osm.pbf',
   tz: 'Europe/Amsterdam',
   buildings: '3dbag', geocoder: 'pdok', waterY: -1.7, cafeLabel: 'Bruin café',
   transit: { planner: '9292-reisplanner', url: 'https://9292.nl', pay: 'Betaal in tram, bus en metro direct met je bankpas of creditcard (in- en uitchecken).' },
