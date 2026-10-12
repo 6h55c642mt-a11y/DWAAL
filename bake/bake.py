@@ -539,7 +539,9 @@ def place_tags(cat: str):
     if not c: return None
     if has('parking', 'barber', 'bank', 'dentist', 'doctor', 'hospital', 'pharmacy', 'school', 'office', 'insurance', 'lawyer', 'real_estate', 'automotive', 'car_', 'hotel', 'hostel', 'apartment'): return None
     if has('museum', 'art_gallery'): return {'tourism': 'museum'}
-    if has('opera', 'theat', 'concert', 'music_venue', 'jazz', 'comedy_club', 'performing_arts'): return {'amenity': 'theatre'}
+    # alleen echte zalen: geen gezelschappen, producties, scholen of bureaus ('performing_arts', 'theatrical_productions')
+    if c in ('theatre', 'theater', 'dinner_theater', 'concert_hall') or has('opera', 'music_venue', 'jazz', 'comedy_club'): return {'amenity': 'theatre'}
+    if has('theatrical', 'performing_arts'): return None
     if has('cinema', 'movie'): return {'amenity': 'cinema'}
     if has('ice_cream', 'gelato', 'frozen_yogurt', 'dessert'): return {'amenity': 'ice_cream'}
     if has('fast_food', 'burger', 'sandwich', 'falafel', 'kebab', 'hot_dog', 'food_truck'): return {'amenity': 'fast_food', 'cuisine': c}
@@ -575,6 +577,7 @@ def bake_places(cfg, proj, cache, out: Path):
         if not name: skipped['geen naam'] += 1; continue
         tags = place_tags(cat)
         if not tags: unmapped[cat] += 1; continue
+        if tags.get('amenity') == 'theatre' and (cf is None or cf < 0.85): skipped['theater: te onzeker'] += 1; continue
         if g.geom_type != 'Point': g = g.centroid
         x, z = proj.local(g.x, g.y)
         if float(x) ** 2 + float(z) ** 2 > R * R: continue

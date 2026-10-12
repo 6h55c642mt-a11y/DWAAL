@@ -1,5 +1,5 @@
 # Zet de kaartdata van een stad klaar in de cloud en zet die in data/<stad>/.
-# Start via: Actions → "Kaartdata bakken" → Run workflow (of automatisch na een wijziging aan bake/ of cities/).
+# Start via: Actions → "Kaartdata bakken" → Run workflow (bakken gaat alleen handmatig, zodat gidswijzigingen niet alles opnieuw bakken).
 name: Kaartdata bakken
 on:
   workflow_dispatch:
@@ -10,9 +10,6 @@ on:
       only:
         description: 'Onderdelen (buildings,base,places,transit)'
         default: 'buildings,base,places,transit'
-  push:
-    branches: [main]
-    paths: ['bake/**', 'cities/*.js']
 permissions:
   contents: write
 concurrency: { group: bake, cancel-in-progress: false }

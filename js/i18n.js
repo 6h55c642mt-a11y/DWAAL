@@ -47,13 +47,14 @@ export function installTranslator(root = document.body) {
 
 // Stadsdata: basis in één taal, vertaling als overlay (cities/<stad>.js -> i18n[lang])
 export function localizeCity(city, lang) {
-  if (!city.i18n?.[lang] || city.baseLang === lang) return city;
-  const o = city.i18n[lang], c = { ...city };
+  if (city.baseLang === lang) return city;
+  const o = city.i18n?.[lang] || {}, c = { ...city };
   const tf = facts => { if (!facts || lang !== 'en') return facts; const r = {}; for (const [k, v] of Object.entries(facts)) r[FACT_KEYS[k] || k] = v; return r; };
-  c.curated = city.curated.map(p => { const t = o.places?.[p.id]; if (!t) return { ...p, facts: tf(p.facts) }; return { ...p, ...t, facts: t.facts || tf(p.facts), wiki: t.wiki || p.wiki }; });
-  c.districts = city.districts.map(D => { const t = o.districts?.[D.id]; if (!t) return D; return { ...D, ...t, routes: D.routes.map((r, i) => ({ ...r, ...(t.routes?.[i] || {}) })) }; });
-  c.presets = city.presets.map(r => ({ ...r, ...(o.presets?.[r.id] || {}) }));
-  c.info = Object.fromEntries(Object.entries(city.info || {}).map(([k, v]) => [k, { ...v, ...(o.info?.[k] || {}) }]));
+  // vertaling staat óf in een aparte overlay (i18n[lang]), óf direct bij het item (veld met de taalcode, bv. en: {...})
+  c.curated = city.curated.map(p => { const t = o.places?.[p.id] || p[lang]; if (!t) return { ...p, facts: tf(p.facts) }; return { ...p, ...t, facts: t.facts || tf(p.facts), wiki: t.wiki || p.wiki }; });
+  c.districts = city.districts.map(D => { const t = o.districts?.[D.id] || D[lang]; if (!t) return D; return { ...D, ...t, routes: D.routes.map((r, i) => ({ ...r, ...(t.routes?.[i] || r[lang] || {}) })) }; });
+  c.presets = city.presets.map(r => ({ ...r, ...(o.presets?.[r.id] || r[lang] || {}) }));
+  c.info = Object.fromEntries(Object.entries(city.info || {}).map(([k, v]) => [k, { ...v, ...(o.info?.[k] || v[lang] || {}) }]));
   for (const k of ['transit', 'starts', 'cafeLabel', 'name']) if (o[k]) c[k] = o[k];
   return c;
 }

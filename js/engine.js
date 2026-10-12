@@ -399,17 +399,18 @@ function extrude(buf, rings, h, wall, roof, y0) {
 const DIST_U = { tex: { value: null }, on: { value: 0 } };
 // exacte gebouwmarkering: per vertex een code (0 = geen, 1..12 = kleur uit deze lijst)
 const NIGHT_U = { value: 0 };
+const FAR_U = { tex: { value: null } };   // verre markeringen: kleurvlekken op een kaart over de hele stad
 const HL_U = { col: { value: Array.from({ length: 12 }, () => new THREE.Color('#ffffff')) }, glow: { value: .35 } };
 function makeTileMaterial() {
   const m = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: .88, metalness: 0, envMapIntensity: .35, flatShading: true, side: THREE.DoubleSide });
   const pal = ['#FBFBF9', '#F8F8F6', '#F6F6F3', '#FAFAF8', '#F7F7F4', '#FCFCFA', '#F5F5F2', '#F9F9F7'].map(c => new THREE.Color(c));   // neutraal wit, minimale variatie
   m.onBeforeCompile = sh => {
-    sh.uniforms.uPal = { value: pal }; sh.uniforms.uDist = DIST_U.tex; sh.uniforms.uDistOn = DIST_U.on; sh.uniforms.uRoof = { value: new THREE.Color('#FFFFFF') }; sh.uniforms.uSlate = { value: new THREE.Color('#ECEBE8') }; sh.uniforms.uNight = NIGHT_U; sh.uniforms.uHlCol = HL_U.col; sh.uniforms.uHlGlow = HL_U.glow; sh.uniforms.uClipR = { value: R };
+    sh.uniforms.uPal = { value: pal }; sh.uniforms.uDist = DIST_U.tex; sh.uniforms.uDistOn = DIST_U.on; sh.uniforms.uRoof = { value: new THREE.Color('#FFFFFF') }; sh.uniforms.uSlate = { value: new THREE.Color('#ECEBE8') }; sh.uniforms.uNight = NIGHT_U; sh.uniforms.uHlCol = HL_U.col; sh.uniforms.uHlGlow = HL_U.glow; sh.uniforms.uClipR = { value: R }; sh.uniforms.uFar = FAR_U.tex;
     sh.vertexShader = sh.vertexShader
       .replace('#include <common>', '#include <common>\nattribute float fid;\nattribute float hl;\nvarying float vFid;\nvarying float vHl;\nvarying float vUp;\nvarying vec3 vW;')
       .replace('#include <worldpos_vertex>', '#include <worldpos_vertex>\nvFid = fid; vHl = hl;\nvec3 wN = mat3(modelMatrix) * objectNormal; vUp = dot(wN, wN) > 1e-8 ? normalize(wN).y : 1.0;\nvW = (modelMatrix * vec4(transformed, 1.0)).xyz;');
     sh.fragmentShader = sh.fragmentShader
-      .replace('#include <common>', '#include <common>\nuniform sampler2D uDist;\nuniform float uDistOn;\nuniform vec3 uPal[8];\nuniform vec3 uRoof;\nuniform vec3 uSlate;\nuniform float uClipR;\nuniform vec3 uHlCol[12];\nuniform float uHlGlow;\nuniform float uNight;\nvarying float vFid;\nvarying float vHl;\nvarying float vUp;\nvarying vec3 vW;')
+      .replace('#include <common>', '#include <common>\nuniform sampler2D uDist;\nuniform float uDistOn;\nuniform vec3 uPal[8];\nuniform vec3 uRoof;\nuniform vec3 uSlate;\nuniform float uClipR;\nuniform vec3 uHlCol[12];\nuniform float uHlGlow;\nuniform float uNight;\nuniform sampler2D uFar;\nvarying float vFid;\nvarying float vHl;\nvarying float vUp;\nvarying vec3 vW;')
       .replace('void main() {', 'void main() {\n  if (length(vW.xz) > uClipR) discard;')
       // LoD2-tiles bevatten soms gedegenereerde driehoeken: flat shading geeft dan NaN-normalen,
       // en bloom smeert die NaN-pixels uit tot zwarte blokken. Hier vangen we dat af.
@@ -425,9 +426,12 @@ function makeTileMaterial() {
   if (uDistOn > 0.0) { vec4 dc = texture2D(uDist, vec2(vW.x / (2.0 * uClipR) + .5, .5 - vW.z / (2.0 * uClipR))); cc = mix(cc, dc.rgb * 1.15, dc.a * uDistOn * .6); }
   float hSel = step(19.5, vHl), hC = vHl - 20. * hSel;   // 20+ = geselecteerd: eigen laagkleur, extra gloed
   if (hC > .5) cc = mix(cc, uHlCol[int(hC + .5) - 1], .92);
+  vec3 farC = vec3(0.0);   // blokken op afstand (hl = -1): kleur uit de markeringskaart
+  if (vHl < -.5) { vec4 fc = texture2D(uFar, vec2(vW.x / (2.0 * uClipR) + .5, .5 - vW.z / (2.0 * uClipR))); float fa = smoothstep(.3, .6, fc.a); farC = fc.rgb * fa; cc = mix(cc, fc.rgb, .92 * fa); }
   diffuseColor.rgb *= cc;`)
       .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
   if (hC > .5) totalEmissiveRadiance += uHlCol[int(hC + .5) - 1] * uHlGlow * (1. + 1.6 * hSel);
+  totalEmissiveRadiance += farC * uHlGlow * 1.8;
   if (uNight > .01 && upF < .45 && vW.y > 2.5) {
     vec2 g = vec2((vW.x + vW.z) / 2.7, vW.y / 3.1), c = floor(g), f = fract(g);
     float r = fract(sin(dot(c + vec2(vFid * .371, vFid * .113), vec2(12.9898, 78.233))) * 43758.5453);
@@ -1054,21 +1058,43 @@ let tween = null;
 const isNarrow = () => innerWidth < 900;
 function flyTo(x, z, dist = 420, o = {}) {
   const off = camera.position.clone().sub(controls.target); if (off.lengthSq() < 1) off.set(0, 1, 1);
-  const az = Math.atan2(off.x, off.z); let pol = Math.acos(clamp(off.y / off.length(), -1, 1));
-  if (o.polar != null) pol = o.polar; else if (pol > 1.05 || pol < .35) pol = .85;
+  let az = Math.atan2(off.x, off.z), pol = Math.acos(clamp(off.y / off.length(), -1, 1));
+  if (View.mode === 'plan') pol = View.PLAN; else if (o.polar != null) pol = o.polar; else if (pol > 1.05 || pol < .35) pol = .85;
+  if (o.az != null) az = o.az;
   off.setFromSphericalCoords(dist, pol, az);
   const tgt = new THREE.Vector3(x, 0, z);
   if (o.shift) { const fwd = new THREE.Vector3(-off.x, 0, -off.z).normalize(); tgt.addScaledVector(fwd, -dist * .3); }
-  tween = { t0: performance.now(), dur: (reduceMotion ? .3 : (o.dur || 1.5)) * 1000, fT: controls.target.clone(), tT: tgt, fP: camera.position.clone(), tP: tgt.clone().add(off) };
+  tween = { t0: performance.now(), dur: (reduceMotion ? .3 : (o.dur || 1.5)) * 1000, fT: controls.target.clone(), tT: tgt, fP: camera.position.clone(), tP: tgt.clone().add(off), end: o.end };
   if (!o.silent) Sound.whoosh();
 }
 function stepTween() {
   if (!tween) return; const k = clamp((performance.now() - tween.t0) / tween.dur, 0, 1), e = ease(k);
   controls.target.lerpVectors(tween.fT, tween.tT, e); camera.position.lerpVectors(tween.fP, tween.tP, e);
   camera.position.y += Math.sin(k * Math.PI) * Math.min(tween.fP.distanceTo(tween.tP) * .22, 800);
-  if (k >= 1) tween = null;
+  if (k >= 1) { const f = tween.end; tween = null; f?.(); }
 }
-controls.addEventListener('start', () => { tween = null; });
+// weergave: vrij rondkijken of recht van bovenaf (blijft 3D, alleen de camera staat loodrecht)
+const View = {
+  mode: 'free', PLAN: .0015,
+  init() {
+    for (const b of $$('#viewSeg [data-view]')) b.onclick = () => { Sound.init(); this.set(b.dataset.view); };
+    addEventListener('keydown', e => { if ((e.key === 'v' || e.key === 'V') && !/INPUT|TEXTAREA/.test(document.activeElement?.tagName)) this.set(this.mode === 'plan' ? 'free' : 'plan'); });
+  },
+  set(m) {
+    if (m === this.mode) return; this.mode = m;
+    for (const b of $$('#viewSeg [data-view]')) b.setAttribute('aria-checked', String(b.dataset.view === m));
+    const tg = controls.target, d = camera.position.distanceTo(tg);
+    if (m === 'plan') {
+      controls.minPolarAngle = 0;
+      flyTo(tg.x, tg.z, Math.max(d * 1.15, 260), { az: 0, dur: 1.1, silent: true, end: () => { if (this.mode === 'plan') controls.maxPolarAngle = this.PLAN; } });
+    } else {
+      controls.maxPolarAngle = 1.32; controls.minPolarAngle = 0;
+      flyTo(tg.x, tg.z, d / 1.15, { polar: .85, dur: 1.1, silent: true });
+    }
+    Sound.click();
+  },
+};
+controls.addEventListener('start', () => { const f = tween?.end; tween = null; f?.(); });
 function clampTarget() {
   const tg = controls.target, d = Math.hypot(tg.x, tg.z);
   if (d > R) { const k = R / d, dx = tg.x * (k - 1), dz = tg.z * (k - 1); tg.x += dx; tg.z += dz; camera.position.x += dx; camera.position.z += dz; }
@@ -1080,9 +1106,10 @@ function clampTarget() {
 //  EXTERNE INFO: Wikipedia, PDOK, routering
 // =====================================================================
 const wikiCache = new Map();
+const wdec = t => { try { return decodeURIComponent(t); } catch { return t; } };
 function wiki(ref) {
   if (!ref) return Promise.resolve(null); if (wikiCache.has(ref)) return wikiCache.get(ref);
-  const i = ref.indexOf(':'), lang = i > 0 && i < 4 ? ref.slice(0, i) : 'nl', title = i > 0 && i < 4 ? ref.slice(i + 1) : ref;
+  const i = ref.indexOf(':'), lang = i > 0 && i < 4 ? ref.slice(0, i) : 'nl', title = wdec(i > 0 && i < 4 ? ref.slice(i + 1) : ref);
   const p = fetchJSON(CFG.ep.wiki(lang, title.replace(/ /g, '_')), {}, 12000).then(j => {
     const th = j.thumbnail?.source; return { thumb: th, big: th ? th.replace(/\/\d+px-/, '/800px-') : j.originalimage?.source, url: j.content_urls?.desktop?.page };
   }).catch(() => null);
@@ -1355,7 +1382,7 @@ function stopHtml(x, z) {
 }
 // ---------- Wikipedia: langere Nederlandstalige tekst ----------
 async function wikiLong(ref) {
-  const i = ref.indexOf(':'); let lang = ref.slice(0, i), title = ref.slice(i + 1).replace(/_/g, ' ');
+  const i = ref.indexOf(':'); let lang = ref.slice(0, i), title = wdec(ref.slice(i + 1)).replace(/_/g, ' ');
   if (lang !== LANG) { try { const j = await fetchJSON(`https://${lang}.wikipedia.org/w/api.php?action=query&prop=langlinks&lllang=${LANG}&redirects=1&titles=${encodeURIComponent(title)}&format=json&origin=*`, {}, 10000); const ll = Object.values(j.query?.pages || {})[0]?.langlinks?.[0]; if (ll) { lang = LANG; title = ll['*']; } } catch { } }
   const j = await fetchJSON(`https://${lang}.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=1&exsectionformat=plain&exchars=2600&redirects=1&titles=${encodeURIComponent(title)}&format=json&origin=*`, {}, 12000);
   const text = Object.values(j.query?.pages || {})[0]?.extract; if (!text) return null;
@@ -1691,7 +1718,7 @@ function loop() {
     sampleTrack(mv.T, mv.s, tmpS); mv.mesh.position.set(tmpS.x, mv.y, tmpS.z); mv.mesh.rotation.y = tmpS.ang;
     mv.mesh.visible = tmpS.x * tmpS.x + tmpS.z * tmpS.z < (R - 14) ** 2;
   }
-  RouteView.tick(t); tickLife(t, dt); Districts.tick(dt); HL.tick(); HL_U.glow.value = .55 + .22 * Math.sin(t * 2.6);
+  RouteView.tick(t); tickLife(t, dt); Districts.tick(dt); HL.tick(); FarHL.tick(performance.now()); HL_U.glow.value = .55 + .22 * Math.sin(t * 2.6);
   if (Me.g?.visible) { const r = Me.g.userData.ring, k = 1 + (t % 1.6) * 2; r.scale.set(k, 1, k); r.material.opacity = 1 - (t % 1.6) / 1.6; }
   if (Sound.ctx && t - ambT > .5) { ambT = t; Sound.ambient(camD < 700 ? .012 * (1 - camD / 700) : 0); }
   Shadow.tick(performance.now());
@@ -1714,7 +1741,7 @@ const Perf = {
   },
 };
 async function loadPlaces() {
-  try { Data.addPois(await Baked.json('places')); } catch (e) { ErrLog.add('plekken: ' + e.message); }
+  try { Data.addPois(venueFilter(await Baked.json('places'))); } catch (e) { ErrLog.add('plekken: ' + e.message); }
   buildPoints();
   for (const L of LAYERS) if (Layers.state[L.id]) { Layers.ensure(L.id); Layers.dirty.add(L.id); }
   console.info(`Plekken geladen: ${Data.osm.length} (waarvan ${Data.osm.filter(o => o.layer === 'eten').length} eten en drinken)`);
@@ -1729,7 +1756,7 @@ function slowTick(t) {
 }
 async function boot() {
   ErrLog.init(); safe(() => installTranslator(), 'vertaling'); safe(() => Chrome.init(), 'kop');
-  for (const [fn, n] of [[() => Perf.init(), 'perf'], [() => HL.init(), 'markering'], [() => Data.prep(), 'gids'], [() => Layers.init(), 'lagen'], [() => Pins.init(), 'pins'], [() => Districts.init(), 'buurten'], [() => Food.render(), 'eten'], [() => updateDock(), 'dock'], [() => bindChrome(), 'knoppen']]) safe(fn, n);
+  for (const [fn, n] of [[() => Perf.init(), 'perf'], [() => HL.init(), 'markering'], [() => FarHL.init(), 'verre markering'], [() => View.init(), 'weergave'], [() => { window.__dwaal = { Layers, HL, FarHL, View, Baked }; }, 'debug'], [() => Data.prep(), 'gids'], [() => Layers.init(), 'lagen'], [() => Pins.init(), 'pins'], [() => Districts.init(), 'buurten'], [() => Food.render(), 'eten'], [() => updateDock(), 'dock'], [() => bindChrome(), 'knoppen']]) safe(fn, n);
   Auth.init().then(() => Account.sync()).catch(e => console.warn('auth', e));
   const m = location.hash.match(/#r=([\w-]+)/); if (m) UI.shared = decodeRoute(m[1]);
   camera.position.set(R * .25, R * 1.3, R * 1.3);
@@ -2105,6 +2132,7 @@ const HL = {
   code(tag) { return tag === 'sel' ? 12 : LAYERS.findIndex(l => l.id === tag) + 1; },
   entry(f) { let e = this.entries.get(f.id); if (!e) { const [x, z] = insidePoint(f); e = { f, x, z, tags: new Set(), hits: [], code: 0 }; this.entries.set(f.id, e); } return e; },
   set(tag, fps) {
+    FarHL.dirty = true;
     const want = new Set(fps.map(f => f.id));
     for (const [k, e] of this.entries) if (e.tags.has(tag) && !want.has(k)) { e.tags.delete(tag); this.pending.add(k); }
     for (const f of fps) { const e = this.entry(f); if (!e.tags.has(tag)) { e.tags.add(tag); this.pending.add(f.id); } }
@@ -2147,6 +2175,29 @@ const HL = {
   },
   meshReady(o) { this.fresh.push(o); },
   meshGone(o) { for (const e of this.entries.values()) e.hits = e.hits.filter(h => h.mesh !== o); for (const k of [...this.reg.keys()]) if (k.startsWith(o.uuid + ':')) this.reg.delete(k); },
+};
+
+// verre markeringen: de lichte bouwblokken (zonder gebouw-id's) krijgen hun kleur uit een kaart
+const FarHL = {
+  dirty: true, last: 0,
+  init() {
+    const N = isMobile ? 2048 : 4096; this.N = N;
+    this.cv = document.createElement('canvas'); this.cv.width = this.cv.height = N; this.ctx = this.cv.getContext('2d');
+    this.tex = new THREE.CanvasTexture(this.cv); this.tex.colorSpace = THREE.SRGBColorSpace; this.tex.generateMipmaps = false; this.tex.minFilter = THREE.LinearFilter;
+    FAR_U.tex.value = this.tex;
+  },
+  tick(now) {
+    if (!this.cv || !this.dirty || now - this.last < 200) return; this.dirty = false; this.last = now;
+    const c = this.ctx, N = this.N, k = N / (2 * R), rad = Math.max(2.5, 18 * k); c.clearRect(0, 0, N, N);
+    const groups = new Map();
+    for (const e of HL.entries.values()) { const code = HL.target(e); if (!code) continue; const ci = (code > 19 ? code - 20 : code) - 1; let g = groups.get(ci); if (!g) groups.set(ci, g = []); g.push(e); }
+    for (const [ci, es] of groups) {
+      c.fillStyle = '#' + HL_U.col.value[ci].getHexString(); c.beginPath();
+      for (const e of es) { const x = (e.x + R) * k, y = (e.z + R) * k; c.moveTo(x + rad, y); c.arc(x, y, rad, 0, 6.2832); }
+      c.fill();
+    }
+    this.tex.needsUpdate = true;
+  },
 };
 
 // =====================================================================
@@ -2522,6 +2573,22 @@ function setLangAndReload(l) { try { localStorage.setItem('dwaal:lang', l); } ca
 //  - hi/x_z.*    : volledig detail per tegel van 500 m, alleen bij inzoomen
 //  - base/places/transit.json.gz : grond, water, straten, bomen, plekken, OV
 // =====================================================================
+// theater & muziek: alleen echte zalen. Overture noemt ook gezelschappen, scholen, bureaus en bioscopen 'theater'.
+const NOT_VENUE = /\b(school|academy|academie|acad[ée]mie|studio[s]? school|drama|cours|conservato|company|compagnie|companie|ensemble|orkest|orchestra|orchestre|productions?|agency|agence|bureau|management|casting|records|rehearsal|repetitie|makelaar|real estate|convene|foundation|stichting|association|institute|lessons?|workshop)\b/i, CINEMA = /\b(cin[ée]ma|cinema|path[ée]|gaumont|ugc|mk2|amc|regal|imax|bioscoop|filmhuis)\b/i;
+function venueFilter(J) {
+  const seen = new Map(), out = [];
+  for (const el of J.elements || []) {
+    const t = el.tags || {};
+    if (t.amenity === 'theatre') {
+      const n = t.name || ''; if (!n || NOT_VENUE.test(n)) continue;
+      if (CINEMA.test(n)) { t.amenity = 'cinema'; out.push(el); continue; }
+      const la = el.lat ?? el.center?.lat, lo = el.lon ?? el.center?.lon, k = n.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 14);
+      const prev = seen.get(k); if (prev && Math.abs(prev[0] - la) < .0008 && Math.abs(prev[1] - lo) < .0011) continue; seen.set(k, [la, lo]);
+    }
+    out.push(el);
+  }
+  return { ...J, elements: out };
+}
 const Baked = {
   progress: 0, man: null, tiles: new Map(), active: 0, S: 500,
   dir() { return `data/${CITY.id}/`; },
@@ -2557,7 +2624,7 @@ const Baked = {
     const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(p, 3)); g.setIndex(new THREE.BufferAttribute(t.idx.slice(), 1));
     const seed = (hash(t.tx + ':' + t.tz) % 997) * 1000, f = new Float32Array(n);
     if (t.ids) for (let i = 0; i < n; i++) f[i] = t.ids[i] + seed; else f.fill(seed);
-    g.setAttribute('fid', new THREE.BufferAttribute(f, 1)); g.setAttribute('hl', new THREE.BufferAttribute(new Float32Array(n), 1));
+    g.setAttribute('fid', new THREE.BufferAttribute(f, 1)); g.setAttribute('hl', new THREE.BufferAttribute(t.ids ? new Float32Array(n) : new Float32Array(n).fill(-1), 1));
     g.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(n * 3), 3));   // vlakke belichting via schermafgeleiden
     g.computeBoundingSphere(); g.computeBoundingBox();
     const m = new THREE.Mesh(g, M.building); m.castShadow = m.receiveShadow = true;

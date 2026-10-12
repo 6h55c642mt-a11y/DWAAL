@@ -202,6 +202,13 @@ textarea.field{min-height:64px;resize:vertical}
   .search{left:auto;right:12px;width:420px}
   .chips{left:0;padding-left:12px}
 }
+/* weergave: vrij of bovenaf */
+.viewseg{position:fixed;right:12px;bottom:calc(var(--tabh) + var(--sb) + 72px);z-index:33;display:flex;padding:4px;gap:2px;border-radius:16px;background:var(--paper);box-shadow:var(--shadow)}
+.viewseg button{display:flex;align-items:center;gap:6px;height:36px;padding:0 12px 0 9px;border-radius:12px;font-weight:700;font-size:13px;color:var(--ink);transition:background .2s,color .2s}
+.viewseg button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.viewseg button[aria-checked=true]{background:var(--ink);color:var(--paper)}
+@media (max-width:420px){.viewseg button span{display:none}.viewseg button{padding:0 9px}}
+@media (min-width:900px){.viewseg{bottom:74px}}
 /* lees meer */
 .morebtn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 14px;margin:4px 0 0;border-radius:13px;background:var(--paper2);font-weight:700;font-size:15px}
 .morebtn i{font-style:normal;transition:transform .2s}

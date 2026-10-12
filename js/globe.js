@@ -168,7 +168,7 @@ function select(c) {
   const isDay = ll2v(c.lat, c.lon).dot(sunU.value) > -.05;
   const card = $('#ccard');
   card.innerHTML = `<button class="mclose" aria-label="${T('Sluit')}">×</button><span class="pill">${esc(c.country[LANG])}</span><h2>${esc(cname(c))}</h2>
-    <p class="ctime">${isDay ? '☀︎' : '☾'} ${esc(local)} ${T('lokale tijd')}, ${T(isDay ? 'Nu dag' : 'Nu nacht')}</p><p>${esc(c.blurb[LANG])}</p>
+    <p class="ctime">${isDay ? '☀︎' : '☾'} ${esc(local)} ${T('lokale tijd')}, ${T(isDay ? 'Nu dag' : 'Nu nacht')}</p>${(c.intro?.[LANG] || [c.blurb[LANG]]).map(t => `<p class="cintro">${esc(t)}</p>`).join('')}${c.top ? `<ul class="ctop">${c.top[LANG].map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
     <a class="btn pri" href="city.html?city=${c.id}&lang=${LANG}">${T('Verken')} ${esc(cname(c))} →</a>`;
   card.hidden = false; $('.mclose', card).onclick = () => { card.hidden = true; };
 }

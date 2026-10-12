@@ -2,7 +2,7 @@
 // variabelen via EN_RULES. Stadsinhoud staat in cities/<stad>.js (i18n-overlay).
 const t = s => (EN[s] ?? EN[s?.toLowerCase?.()] ?? s);
 export const EN = {
-  'Ontdek': 'Explore', 'Buurten': 'Neighbourhoods', 'Plan': 'Plan', 'Routes': 'Routes', 'Mijn route': 'My route', 'Stempels': 'Stamps',
+  'Vrij': 'Free', 'Bovenaf': 'Top-down', 'Vrij rondkijken': 'Free view', 'Bovenaanzicht': 'Top-down view', 'Weergave': 'View', 'Ontdek': 'Explore', 'Buurten': 'Neighbourhoods', 'Plan': 'Plan', 'Routes': 'Routes', 'Mijn route': 'My route', 'Stempels': 'Stamps',
   '‹ Ontdek': '‹ Explore', 'Zoek een plek of adres': 'Search a place or address', 'Zoek een plek, café of adres': 'Search a place, café or address', 'Sluit': 'Close',
   'Geluid': 'Sound', 'Toon mijn locatie': 'Show my location', 'Terug naar overzicht': 'Back to overview', 'Terug naar de wereldbol': 'Back to the globe',
   'Kaartlagen': 'Map layers', 'Soort eten en drinken': 'Type of food and drink', 'Open mijn route': 'Open my route', 'Sleep plekken hierheen': 'Drag places here',
@@ -154,4 +154,8 @@ export const FACT_KEYS = {
   'Beroemd om': 'Famous for', 'Kerk': 'Church', 'Maandag': 'Monday', 'Zaterdag': 'Saturday', 'Vroeger': 'Formerly', 'Kenmerk': 'Feature', 'Aan de kade': 'At the quay', 'Topstuk': 'Highlight',
   'Bekend om': 'Known for', 'Gesticht': 'Founded', 'Buurt': 'Neighbourhood', 'Standbeeld': 'Statue', 'Brouwerij tot': 'Brewery until',
   'Uitbreiding': 'Extension', 'Lengte': 'Length', 'Genoemd naar': 'Named after', 'Ook wel': 'Also known as', 'Rondom': 'Around', 'Ontstaan': 'Origin',
+  'Architect': 'Architect', 'Voltooid': 'Completed', 'Obelisk': 'Obelisk', 'Koepel': 'Dome', 'Piramide': 'Pyramid', 'Zuilen': 'Columns', 'Heropend': 'Reopened',
+  'Station': 'Station', 'Aangelegd': 'Laid out', 'Molen': 'Windmill', 'Fabriek': 'Factory', 'Leeuwen': 'Lions', 'Winter': 'Winter', 'Opgericht': 'Founded',
+  'Bibliotheek': 'Library', 'Theaters': 'Theatres', 'In': 'In', 'Geplaatst': 'Installed', 'Boog': 'Arch', 'Monument': 'Monument', 'Draaimolen': 'Carousel',
+  'Paviljoen': 'Pavilion', 'Tickets': 'Tickets', 'Type': 'Type', 'Open': 'Open', 'Extra': 'Extra',
 };
