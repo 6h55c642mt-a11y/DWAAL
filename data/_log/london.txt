@@ -1,0 +1,50 @@
+19:11:53 london: straal 5000 m, gebouwen uit overture
+19:11:53 Gebouwen …
+19:11:54   Overture building downloaden …
+19:12:19   building: 131767 records
+19:12:19   Overture building_part downloaden …
+19:12:20   building_part: 11311 records
+19:12:28   93216 gebouwen (Overture)
+19:12:28   tegels 1/341
+19:12:30   tegels 26/341
+19:12:32   tegels 51/341
+19:12:33   tegels 76/341
+19:12:35   tegels 101/341
+19:12:37   tegels 126/341
+19:12:39   tegels 151/341
+19:12:41   tegels 176/341
+19:12:43   tegels 201/341
+19:12:45   tegels 226/341
+19:12:47   tegels 251/341
+19:12:49   tegels 276/341
+19:12:50   tegels 301/341
+19:12:52   tegels 326/341
+19:12:52   lo.bin.gz: 5.5 MB, 341 detailtegels
+19:12:53 Grond, water, groen, straten, bomen …
+19:12:53   Overture land downloaden …
+19:12:59   land: 62519 records
+19:12:59   Overture water downloaden …
+19:13:06   water: 392 records
+19:13:12   grond: 691 vlakken, 267 kades, 54 rivierlijnen
+19:13:12   Overture land_use downloaden …
+19:13:16   land_use: 15731 records
+19:13:18   Overture segment downloaden …
+19:13:26   segment: 83722 records
+19:13:31   3445 parken, 28092 straatdelen
+19:13:31   OSM-extract downloaden: https://download.geofabrik.de/europe/united-kingdom/england/greater-london-latest.osm.pbf
+19:13:42   regio: 129 MB
+19:13:47   uitsnede stad: 25 MB
+19:14:06   OSM: 61426 bomen, 3088 haltes, 45 markten, 598 OV-lijnen
+19:14:07   base.json.gz: 1.0 MB (48479 bomen)
+19:14:07 Plekken …
+19:14:07   Overture place downloaden …
+19:14:10   place: 151152 records
+19:14:10   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+19:14:15   20685 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 39442, 'theater: te onzeker': 229}
+19:14:15   meest voorkomende niet-gebruikte categorieën: [(None, 8846), ('professional_service', 6055), ('fashion_and_apparel_store', 5362), ('personal_or_beauty_service', 3798), ('financial_service', 2891), ('real_estate_service', 2609), ('home_service', 2575), ('corporate_or_business_office', 2484), ('b2b_office_and_professional_service', 2099), ('food_and_beverage_store', 1621), ('hotel', 1566), ('media_service', 1519), ('travel_service', 1441), ('shopping', 1433), ('wellness_service', 1318), ('event_or_party_service', 1284), ('technical_service', 1284), ('design_service', 1126), ('historic_site', 1039), ('christian_place_of_worship', 1014), ('gym', 925), ('civic_organization', 919), ('dental_clinic', 903), ('specialty_school', 893), ('attorney_or_law_firm', 884)]
+19:14:15   3088 haltes en stations uit OpenStreetMap
+19:14:16   places.json.gz: 23773 plekken, 1.4 MB
+19:14:16 Openbaar vervoer …
+19:14:17   transit.json.gz: 598 lijnen
+19:14:17 Klaar: /home/runner/work/DWAAL/DWAAL/data/london (26.1 MB totaal)
+exit 0
