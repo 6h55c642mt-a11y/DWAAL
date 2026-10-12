@@ -1,0 +1,45 @@
+19:17:29 stockholm: straal 3800 m, gebouwen uit overture
+19:17:29 Gebouwen …
+19:17:30   Overture building downloaden …
+19:17:54   building: 17182 records
+19:17:54   Overture building_part downloaden …
+19:17:55   building_part: 1847 records
+19:17:56   14000 gebouwen (Overture)
+19:17:56   tegels 1/206
+19:17:57   tegels 26/206
+19:17:57   tegels 51/206
+19:17:58   tegels 76/206
+19:17:58   tegels 101/206
+19:17:59   tegels 126/206
+19:18:00   tegels 151/206
+19:18:00   tegels 176/206
+19:18:00   tegels 201/206
+19:18:00   lo.bin.gz: 1.1 MB, 206 detailtegels
+19:18:00 Grond, water, groen, straten, bomen …
+19:18:00   Overture land downloaden …
+19:18:06   land: 5431 records
+19:18:06   Overture water downloaden …
+19:18:13   water: 239 records
+19:18:18   grond: 416 vlakken, 107 kades, 14 rivierlijnen
+19:18:18   Overture land_use downloaden …
+19:18:22   land_use: 4125 records
+19:18:23   Overture segment downloaden …
+19:18:30   segment: 31615 records
+19:18:32   1363 parken, 8287 straatdelen
+19:18:32   OSM-extract downloaden: https://download.geofabrik.de/europe/sweden-latest.osm.pbf
+19:19:38   regio: 885 MB
+19:20:00   uitsnede stad: 7 MB
+19:20:06   OSM: 4154 bomen, 1172 haltes, 4 markten, 665 OV-lijnen
+19:20:06   base.json.gz: 0.3 MB (3790 bomen)
+19:20:06 Plekken …
+19:20:06   Overture place downloaden …
+19:20:08   place: 33345 records
+19:20:08   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+19:20:09   5006 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 10289, 'theater: te onzeker': 49}
+19:20:09   meest voorkomende niet-gebruikte categorieën: [('personal_or_beauty_service', 1316), ('fashion_and_apparel_store', 952), ('professional_service', 922), (None, 528), ('corporate_or_business_office', 517), ('social_or_community_service', 512), ('wellness_service', 427), ('food_and_beverage_store', 401), ('real_estate_service', 389), ('historic_site', 328), ('parking', 322), ('financial_service', 319), ('gym', 299), ('media_service', 298), ('event_or_party_service', 294), ('dental_clinic', 288), ('home_service', 285), ('automotive_service', 227), ('travel_service', 227), ('lodging', 227), ('hotel', 220), ('design_service', 216), ('taxi_or_ride_share_service', 196), ('sport_or_fitness_facility', 188), ('attorney_or_law_firm', 182)]
+19:20:09   1172 haltes en stations uit OpenStreetMap
+19:20:09   places.json.gz: 6178 plekken, 0.3 MB
+19:20:09 Openbaar vervoer …
+19:20:10   transit.json.gz: 665 lijnen
+19:20:10 Klaar: /home/runner/work/DWAAL/DWAAL/data/stockholm (4.9 MB totaal)
+exit 0
