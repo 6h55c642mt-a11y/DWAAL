@@ -1,0 +1,44 @@
+19:14:22 copenhagen: straal 3800 m, gebouwen uit overture
+19:14:22 Gebouwen …
+19:14:22   Overture building downloaden …
+19:14:47   building: 38864 records
+19:14:47   Overture building_part downloaden …
+19:14:48   building_part: 1204 records
+19:14:51   28028 gebouwen (Overture)
+19:14:51   tegels 1/199
+19:14:52   tegels 26/199
+19:14:53   tegels 51/199
+19:14:54   tegels 76/199
+19:14:55   tegels 101/199
+19:14:57   tegels 126/199
+19:14:57   tegels 151/199
+19:14:58   tegels 176/199
+19:14:59   lo.bin.gz: 2.1 MB, 199 detailtegels
+19:14:59 Grond, water, groen, straten, bomen …
+19:14:59   Overture land downloaden …
+19:15:05   land: 22992 records
+19:15:05   Overture water downloaden …
+19:15:14   water: 452 records
+19:15:15   grond: 511 vlakken, 299 kades, 30 rivierlijnen
+19:15:15   Overture land_use downloaden …
+19:15:34   land_use: 5333 records
+19:15:35   Overture segment downloaden …
+19:15:43   segment: 27815 records
+19:15:45   1912 parken, 10354 straatdelen
+19:15:45   OSM-extract downloaden: https://download.geofabrik.de/europe/denmark-latest.osm.pbf
+19:17:01   regio: 496 MB
+19:17:14   uitsnede stad: 9 MB
+19:17:21   OSM: 21745 bomen, 1047 haltes, 1 markten, 135 OV-lijnen
+19:17:22   base.json.gz: 0.4 MB (19863 bomen)
+19:17:22 Plekken …
+19:17:22   Overture place downloaden …
+19:17:24   place: 56407 records
+19:17:24   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+19:17:25   5441 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 31579, 'theater: te onzeker': 81}
+19:17:25   meest voorkomende niet-gebruikte categorieën: [('personal_or_beauty_service', 1554), ('fashion_and_apparel_store', 1334), ('professional_service', 1267), ('food_and_beverage_store', 595), ('corporate_or_business_office', 587), ('social_or_community_service', 546), ('media_service', 490), ('wellness_service', 450), ('home_service', 422), ('behavioral_or_mental_health_clinic', 420), (None, 338), ('travel_service', 311), ('design_service', 305), ('real_estate_service', 288), ('sporting_goods_store', 285), ('event_or_party_service', 283), ('shopping', 276), ('financial_service', 272), ('lodging', 250), ('second_hand_store', 245), ('complementary_and_alternative_medicine', 238), ('technical_service', 236), ('historic_site', 236), ('ev_charging_station', 221), ('hotel', 221)]
+19:17:26   1047 haltes en stations uit OpenStreetMap
+19:17:26   places.json.gz: 6488 plekken, 0.4 MB
+19:17:26 Openbaar vervoer …
+19:17:26   transit.json.gz: 135 lijnen
+19:17:26 Klaar: /home/runner/work/DWAAL/DWAAL/data/copenhagen (9.4 MB totaal)
+exit 0
