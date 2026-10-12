@@ -1,7 +1,9 @@
-05:53:55 amsterdam: straal 3300 m, gebouwen uit 3dbag
-05:53:55 Grond, water, groen, straten, bomen …
-05:53:58   grond: 683 vlakken, 370 kades, 399 rivierlijnen
-05:54:01   2834 parken, 8897 straatdelen
-05:54:01   base.json.gz: 0.5 MB (15930 bomen)
-05:54:01 Klaar: /home/runner/work/DWAAL/DWAAL/data/amsterdam (47.5 MB totaal)
+16:15:34 amsterdam: straal 3300 m, gebouwen uit 3dbag
+16:15:34 Plekken …
+16:15:34   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+16:15:35   5967 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 10267, 'theater: te onzeker': 69}
+16:15:35   meest voorkomende niet-gebruikte categorieën: [('fashion_and_apparel_store', 1255), ('personal_or_beauty_service', 891), ('food_and_beverage_store', 655), ('hotel', 634), ('wellness_service', 473), ('professional_service', 455), (None, 359), ('corporate_or_business_office', 322), ('shopping', 307), ('real_estate_service', 305), ('event_or_party_service', 262), ('social_or_community_service', 260), ('bridge', 257), ('gym', 251), ('travel_service', 235), ('sporting_goods_store', 210), ('historic_site', 207), ('flowers_and_gifts_store', 197), ('financial_service', 183), ('books_music_and_video_store', 180), ('home_service', 178), ('media_service', 173), ('sport_or_fitness_facility', 165), ('parking', 163), ('specialty_school', 162)]
+16:15:35   828 haltes en stations uit OpenStreetMap
+16:15:35   places.json.gz: 6795 plekken, 0.4 MB
+16:15:35 Klaar: /home/runner/work/DWAAL/DWAAL/data/amsterdam (47.5 MB totaal)
 exit 0
