@@ -1,0 +1,62 @@
+07:03:06 shenzhen: straal 7800 m, gebouwen uit overture
+07:03:06 Gebouwen …
+07:03:06   Overture building downloaden …
+07:03:33   building: 64663 records
+07:03:33   Overture building_part downloaden …
+07:03:34   building_part: 447 records
+07:03:36   48537 gebouwen (Overture)
+07:03:36   tegels 1/633
+07:03:36   tegels 26/633
+07:03:36   tegels 51/633
+07:03:36   tegels 76/633
+07:03:36   tegels 101/633
+07:03:37   tegels 126/633
+07:03:37   tegels 151/633
+07:03:37   tegels 176/633
+07:03:37   tegels 201/633
+07:03:37   tegels 226/633
+07:03:38   tegels 251/633
+07:03:38   tegels 276/633
+07:03:39   tegels 301/633
+07:03:39   tegels 326/633
+07:03:39   tegels 351/633
+07:03:40   tegels 376/633
+07:03:40   tegels 401/633
+07:03:40   tegels 426/633
+07:03:40   tegels 451/633
+07:03:41   tegels 476/633
+07:03:41   tegels 501/633
+07:03:41   tegels 526/633
+07:03:41   tegels 551/633
+07:03:41   tegels 576/633
+07:03:42   tegels 601/633
+07:03:42   tegels 626/633
+07:03:42   lo.bin.gz: 4.0 MB, 633 detailtegels
+07:03:42 Grond, water, groen, straten, bomen …
+07:03:42   Overture land downloaden …
+07:03:49   land: 3906 records
+07:03:49   Overture water downloaden …
+07:03:57   water: 2069 records
+07:04:00   grond: 1811 vlakken, 1556 kades, 97 rivierlijnen
+07:04:00   Overture land_use downloaden …
+07:04:05   land_use: 5829 records
+07:04:05   Overture segment downloaden …
+07:04:14   segment: 27966 records
+07:04:15   1237 parken, 14829 straatdelen
+07:04:15   OSM-extract downloaden: https://download.geofabrik.de/asia/china-latest.osm.pbf
+07:06:13   regio: 1608 MB
+07:06:42   uitsnede stad: 6 MB
+07:06:45   OSM: 733 bomen, 2140 haltes, 12 markten, 266 OV-lijnen
+07:06:45   base.json.gz: 0.8 MB (718 bomen)
+07:06:45 Plekken …
+07:06:45   Overture place downloaden …
+07:06:47   place: 4296 records
+07:06:47   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+07:06:47   1282 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 1239, 'theater: te onzeker': 10}
+07:06:47   meest voorkomende niet-gebruikte categorieën: [('hotel', 202), ('fashion_and_apparel_store', 139), ('historic_site', 87), (None, 83), ('non_alcoholic_beverage_venue', 76), ('train_station', 57), ('electronics_store', 53), ('travel_and_transportation', 50), ('real_estate_service', 46), ('automotive_service', 39), ('bank_or_credit_union', 37), ('lodging', 36), ('hospital', 35), ('wellness_service', 34), ('professional_service', 30), ('corporate_or_business_office', 26), ('food_and_beverage_store', 21), ('convenience_store', 20), ('manufacturer', 20), ('mountain', 19), ('auto_dealer', 18), ('b2b_transportation_and_storage_service', 15), ('travel_service', 15), ('farm', 15), ('resort', 14)]
+07:06:47   2140 haltes en stations uit OpenStreetMap
+07:06:47   places.json.gz: 3422 plekken, 0.1 MB
+07:06:47 Openbaar vervoer …
+07:06:48   transit.json.gz: 266 lijnen
+07:06:48 Klaar: /home/runner/work/DWAAL/DWAAL/data/shenzhen (13.9 MB totaal)
+exit 0
