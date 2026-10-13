@@ -1,0 +1,41 @@
+06:57:38 zurich: straal 3000 m, gebouwen uit overture
+06:57:38 Gebouwen …
+06:57:38   Overture building downloaden …
+06:58:09   building: 28264 records
+06:58:09   Overture building_part downloaden …
+06:58:11   building_part: 997 records
+06:58:12   24695 gebouwen (Overture)
+06:58:12   tegels 1/122
+06:58:12   tegels 26/122
+06:58:13   tegels 51/122
+06:58:14   tegels 76/122
+06:58:15   tegels 101/122
+06:58:16   lo.bin.gz: 1.4 MB, 122 detailtegels
+06:58:16 Grond, water, groen, straten, bomen …
+06:58:16   Overture land downloaden …
+06:58:23   land: 14743 records
+06:58:23   Overture water downloaden …
+06:58:31   water: 790 records
+06:58:31   grond: 246 vlakken, 226 kades, 12 rivierlijnen
+06:58:31   Overture land_use downloaden …
+06:58:36   land_use: 3157 records
+06:58:36   Overture segment downloaden …
+06:58:44   segment: 31419 records
+06:58:45   1167 parken, 7909 straatdelen
+06:58:45   OSM-extract downloaden: https://download.geofabrik.de/europe/switzerland-latest.osm.pbf
+06:59:28   regio: 548 MB
+06:59:38   uitsnede stad: 8 MB
+06:59:41   OSM: 14223 bomen, 670 haltes, 0 markten, 274 OV-lijnen
+06:59:41   base.json.gz: 0.3 MB (13102 bomen)
+06:59:41 Plekken …
+06:59:41   Overture place downloaden …
+06:59:44   place: 19937 records
+06:59:44   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+06:59:45   2692 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 5530, 'theater: te onzeker': 40}
+06:59:45   meest voorkomende niet-gebruikte categorieën: [('fashion_and_apparel_store', 777), ('personal_or_beauty_service', 685), (None, 544), ('b2b_office_and_professional_service', 533), ('wellness_service', 362), ('professional_service', 333), ('food_and_beverage_store', 327), ('place_of_learning', 245), ('attorney_or_law_firm', 229), ('home_service', 217), ('specialized_health_care', 202), ('behavioral_or_mental_health_clinic', 193), ('real_estate_service', 191), ('design_service', 190), ('travel_service', 185), ('complementary_and_alternative_medicine', 184), ('hotel', 178), ('financial_service', 177), ('diagnostics_imaging_or_lab_service', 171), ('corporate_or_business_office', 169), ('dental_clinic', 162), ('specialty_school', 160), ('social_or_community_service', 151), ('shopping', 136), ('building_or_construction_service', 135)]
+06:59:45   670 haltes en stations uit OpenStreetMap
+06:59:45   places.json.gz: 3362 plekken, 0.2 MB
+06:59:45 Openbaar vervoer …
+06:59:46   transit.json.gz: 274 lijnen
+06:59:46 Klaar: /home/runner/work/DWAAL/DWAAL/data/zurich (7.8 MB totaal)
+exit 0
