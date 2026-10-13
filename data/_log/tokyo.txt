@@ -1,0 +1,57 @@
+07:06:51 tokyo: straal 6100 m, gebouwen uit overture
+07:06:51 Gebouwen …
+07:06:51   Overture building downloaden …
+07:07:29   building: 364394 records
+07:07:29   Overture building_part downloaden …
+07:07:30   building_part: 2786 records
+07:07:39   268820 gebouwen (Overture)
+07:07:39   tegels 1/509
+07:07:41   tegels 26/509
+07:07:42   tegels 51/509
+07:07:43   tegels 76/509
+07:07:45   tegels 101/509
+07:07:47   tegels 126/509
+07:07:49   tegels 151/509
+07:07:51   tegels 176/509
+07:07:54   tegels 201/509
+07:07:56   tegels 226/509
+07:07:57   tegels 251/509
+07:07:58   tegels 276/509
+07:08:00   tegels 301/509
+07:08:01   tegels 326/509
+07:08:03   tegels 351/509
+07:08:04   tegels 376/509
+07:08:06   tegels 401/509
+07:08:08   tegels 426/509
+07:08:10   tegels 451/509
+07:08:12   tegels 476/509
+07:08:14   tegels 501/509
+07:08:15   lo.bin.gz: 15.4 MB, 509 detailtegels
+07:08:15 Grond, water, groen, straten, bomen …
+07:08:15   Overture land downloaden …
+07:08:22   land: 11564 records
+07:08:22   Overture water downloaden …
+07:08:31   water: 1060 records
+07:08:37   grond: 1071 vlakken, 598 kades, 159 rivierlijnen
+07:08:37   Overture land_use downloaden …
+07:08:42   land_use: 9290 records
+07:08:42   Overture segment downloaden …
+07:08:51   segment: 104004 records
+07:08:54   2338 parken, 48575 straatdelen
+07:08:54   OSM-extract downloaden: https://download.geofabrik.de/asia/japan/kanto-latest.osm.pbf
+07:09:33   regio: 519 MB
+07:09:43   uitsnede stad: 27 MB
+07:09:57   OSM: 9506 bomen, 4663 haltes, 7 markten, 563 OV-lijnen
+07:09:57   base.json.gz: 1.0 MB (8776 bomen)
+07:09:57 Plekken …
+07:09:57   Overture place downloaden …
+07:10:01   place: 211855 records
+07:10:01   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+07:10:05   67037 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 37295, 'theater: te onzeker': 719}
+07:10:05   meest voorkomende niet-gebruikte categorieën: [('personal_or_beauty_service', 8032), ('fashion_and_apparel_store', 6045), ('professional_service', 4121), (None, 3236), ('convenience_store', 2867), ('food_and_beverage_store', 2757), ('atm', 2689), ('shopping', 2631), ('real_estate_service', 2606), ('rental_service', 2377), ('event_or_party_service', 2316), ('wellness_service', 2231), ('corporate_or_business_office', 2212), ('parking', 2096), ('pharmacy_and_drug_store', 2058), ('dental_clinic', 1868), ('hotel', 1791), ('specialty_school', 1480), ('historic_site', 1383), ('hospital', 1287), ('social_or_community_service', 1277), ('media_service', 1223), ('gym', 1210), ('complementary_and_alternative_medicine', 1175), ('technical_service', 1131)]
+07:10:05   4663 haltes en stations uit OpenStreetMap
+07:10:06   places.json.gz: 71700 plekken, 4.8 MB
+07:10:06 Openbaar vervoer …
+07:10:07   transit.json.gz: 563 lijnen
+07:10:07 Klaar: /home/runner/work/DWAAL/DWAAL/data/tokyo (59.1 MB totaal)
+exit 0
