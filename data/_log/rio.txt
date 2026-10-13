@@ -1,0 +1,50 @@
+06:59:49 rio: straal 6000 m, gebouwen uit overture
+06:59:49 Gebouwen …
+06:59:49   Overture building downloaden …
+07:00:20   building: 127463 records
+07:00:20   Overture building_part downloaden …
+07:00:21   building_part: 5334 records
+07:00:24   100181 gebouwen (Overture)
+07:00:24   tegels 1/331
+07:00:25   tegels 26/331
+07:00:26   tegels 51/331
+07:00:27   tegels 76/331
+07:00:28   tegels 101/331
+07:00:29   tegels 126/331
+07:00:30   tegels 151/331
+07:00:32   tegels 176/331
+07:00:33   tegels 201/331
+07:00:35   tegels 226/331
+07:00:36   tegels 251/331
+07:00:37   tegels 276/331
+07:00:38   tegels 301/331
+07:00:38   tegels 326/331
+07:00:38   lo.bin.gz: 6.6 MB, 331 detailtegels
+07:00:38 Grond, water, groen, straten, bomen …
+07:00:38   Overture land downloaden …
+07:00:45   land: 12704 records
+07:00:45   Overture water downloaden …
+07:00:54   water: 1252 records
+07:00:54   grond: 623 vlakken, 912 kades, 82 rivierlijnen
+07:00:54   Overture land_use downloaden …
+07:00:59   land_use: 4169 records
+07:00:59   Overture segment downloaden …
+07:01:07   segment: 19587 records
+07:01:08   1084 parken, 11421 straatdelen
+07:01:08   OSM-extract downloaden: https://download.geofabrik.de/south-america/brazil/sudeste-latest.osm.pbf
+07:02:38   regio: 861 MB
+07:02:54   uitsnede stad: 7 MB
+07:02:58   OSM: 11837 bomen, 890 haltes, 3 markten, 66 OV-lijnen
+07:02:58   base.json.gz: 0.5 MB (11661 bomen)
+07:02:58 Plekken …
+07:02:58   Overture place downloaden …
+07:03:01   place: 64377 records
+07:03:01   kolommen: id, geometry, confidence, websites, emails, socials, phones, brand, addresses, names, sources, operating_status, basic_category, taxonomy, version, bbox
+07:03:02   6728 plekken uit Overture; overgeslagen: {'lage betrouwbaarheid': 29797, 'theater: te onzeker': 101}
+07:03:02   meest voorkomende niet-gebruikte categorieën: [('personal_or_beauty_service', 1820), ('fashion_and_apparel_store', 1690), ('dental_clinic', 923), ('real_estate_service', 796), ('attorney_or_law_firm', 762), ('christian_place_of_worship', 741), ('historic_site', 692), ('food_and_beverage_store', 590), ('specialized_health_care', 551), ('financial_service', 550), ('social_or_community_service', 534), (None, 524), ('place_of_learning', 511), ('specialty_school', 504), ('professional_service', 501), ('hotel', 477), ('gym', 447), ('pharmacy_and_drug_store', 417), ('event_or_party_service', 415), ('diagnostics_imaging_or_lab_service', 401), ('corporate_or_business_office', 394), ('wellness_service', 383), ('bank_or_credit_union', 367), ('travel_service', 359), ('automotive_service', 336)]
+07:03:02   890 haltes en stations uit OpenStreetMap
+07:03:02   places.json.gz: 7618 plekken, 0.5 MB
+07:03:02 Openbaar vervoer …
+07:03:02   transit.json.gz: 66 lijnen
+07:03:02 Klaar: /home/runner/work/DWAAL/DWAAL/data/rio (24.0 MB totaal)
+exit 0
